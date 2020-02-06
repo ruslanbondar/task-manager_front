@@ -1,44 +1,30 @@
 import * as axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://e-commerce-shop-back.herokuapp.com/api/",
+  baseURL: 'http://localhost:3001/',
   // withCredentials: true,
   headers: {}
 });
 
-export const productsItemAPI = {
-  async fetchProducts(categoryId, subCategoryId, page, sortOrder) {
-    const res = await instance.get("item", {
-      params: {
-        limit: 12,
-        page,
-        category: categoryId,
-        subCategory: subCategoryId,
-        sort: "price",
-        sortOrder
-      }
-    });
+export const userAPI = {
+  async getUsers() {
+    const res = await instance.get('users');
     return res.data;
   },
-
-  async deleteProduct(id, categoryId, subCategoryId, page, sortOrder) {
-    const res = await instance.delete(
-      `item/single?id=${id}`,
-      categoryId,
-      subCategoryId,
-      page,
-      sortOrder
-    );
+  async postUser(data) {
+    const res = await instance.post('users', data);
     return res.data;
   },
-
-  async fetchPopularProducts() {
-    const res = await instance.get(`item?isPopular=${true}`);
+  async loginUser(data) {
+    const res = await instance.post('users/login', data);
     return res.data;
   },
-
-  async addToTopSales(id, newData) {
-    const res = await instance.put(`item/single?id=${id}`, newData);
+  async updateUser(data) {
+    const res = await instance.patch('users/single', data);
     return res.data;
-  }
+  },
+  async deleteUser(id) {
+    const res = await instance.delete('users/single', id);
+    return res.data;
+  },
 };
