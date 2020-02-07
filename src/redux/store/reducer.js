@@ -4,6 +4,7 @@ import * as actionTypes from '../actions/actions';
     data: [],
     error: '',
     loading: false,
+    isOpen: false
   };
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +27,18 @@ const reducer = (state = initialState, action) => {
             ...state,
             loading: false,
             error: action.payload,
+          };
+
+        case actionTypes.ON_MODAL_OPEN:
+          return {
+            ...state,
+            isOpen: true
+          };
+
+        case actionTypes.ON_MODAL_CLOSE:
+          return {
+            ...state,
+            isOpen: false
           };
 
         default:
