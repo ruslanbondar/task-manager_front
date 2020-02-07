@@ -1,10 +1,9 @@
 import React, { useEffect, useCallback } from "react";
 import styles from "./Users.module.css";
 import { connect } from "react-redux";
-import { getUsers, onModalOpen } from "../../redux/actions/actions";
-import AddUserModal from '../AddUserModal/AddUserModal';
+import { getUsers } from "../../redux/actions/actions";
 
-const Users = ({ data, getUsers, onModalOpen }) => {
+const Users = ({ data, getUsers }) => {
   const getUsersCallback = useCallback(() => getUsers(), [getUsers]);
 
   useEffect(() => {
@@ -13,16 +12,11 @@ const Users = ({ data, getUsers, onModalOpen }) => {
 
   return (
     <div className="container">
-      <button className={styles.addUserButton} onClick={onModalOpen}>Add User</button>
-
       {data.map(user => (
-        <div key={user._id}>
-          <p>name: {user.name}</p>
-          {/* <p>age: {user.age}</p> */}
-        </div>
+        <ul key={user._id}>
+          <li>{user.name}</li>
+        </ul>
       ))}
-
-      <AddUserModal />
     </div>
   );
 };
@@ -33,4 +27,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getUsers, onModalOpen })(Users);
+export default connect(mapStateToProps, { getUsers })(Users);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styles from "./AddUserModal.module.css";
+import styles from "./SignUpModal.module.css";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
 import { onModalClose, postUser } from "../../redux/actions/actions";
 
-const AddUserModal = ({ onModalClose, isOpen, postUser }) => {
+const SignUpModal = ({ onModalClose, isOpen, postUser }) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -85,7 +85,7 @@ const AddUserModal = ({ onModalClose, isOpen, postUser }) => {
             <input
               className={styles.addUserButton}
               type="submit"
-              value="add"
+              value="sign up"
             />
           </form>
         </div>
@@ -102,5 +102,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { onModalClose, postUser })(
-  AddUserModal
+  SignUpModal
 );
