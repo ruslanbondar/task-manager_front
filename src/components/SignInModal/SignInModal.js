@@ -3,9 +3,9 @@ import styles from "./SignInModal.module.css";
 import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
-import { onLoginClose, postUser } from "../../redux/actions/actions";
+import { onLoginClose, loginUser } from "../../redux/actions/actions";
 
-const SignInModal = ({ onLoginClose, isLoginOpen, postUser }) => {
+const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -22,16 +22,16 @@ const SignInModal = ({ onLoginClose, isLoginOpen, postUser }) => {
   const [newEmail, setNewEmail] = useState();
   const [newPassword, setNewPassword] = useState();
 
-  const addUser = () => {
+  const signInUser = () => {
     const newUser = {
       email: newEmail,
       password: newPassword
     };
-    postUser(newUser);
+    loginUser(newUser);
   };
 
   const submitChanges = e => {
-    addUser();
+    signInUser();
     onLoginClose();
     e.preventDefault();
   };
@@ -55,7 +55,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, postUser }) => {
               required
             />
             <input
-              type="text"
+              type="password"
               defaultValue=""
               placeholder="Password"
               className={styles.addUserInput}
@@ -82,6 +82,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { onLoginClose, postUser })(
+export default connect(mapStateToProps, { onLoginClose, loginUser })(
   SignInModal
 );

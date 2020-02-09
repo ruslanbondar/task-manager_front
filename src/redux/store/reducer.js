@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actions';
   
   const initialState = {
     data: [],
+    singleUser: {},
     error: '',
     loading: false,
     isOpen: false,
@@ -22,6 +23,13 @@ const reducer = (state = initialState, action) => {
             data: action.data,
             loading: false,
           };
+
+        case actionTypes.FETCH_SINGLE_USER:
+          return {
+            ...state,
+            singleUser: action.data,
+            loading: false,
+          }; 
     
         case actionTypes.FETCH_USERS_FAILURE:
           return {

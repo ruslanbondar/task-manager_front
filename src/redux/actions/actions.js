@@ -3,6 +3,7 @@ import { userAPI } from "../../api/api";
 export const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
+export const FETCH_SINGLE_USER = 'FETCH_SINGLE_USER';
 export const ON_MODAL_OPEN = 'ON_MODAL_OPEN';
 export const ON_MODAL_CLOSE = 'ON_MODAL_CLOSE';
 export const ON_LOGIN_OPEN = 'ON_LOGIN_OPEN';
@@ -45,6 +46,13 @@ const fetchUsersSuccess = data => {
   };
 };
 
+const fetchSingleUser = data => {
+  return {
+    type: FETCH_SINGLE_USER,
+    data
+  };
+};
+
 const fetchUsersFailure = error => {
   return {
     type: FETCH_USERS_FAILURE,
@@ -71,7 +79,7 @@ export const getLoggedInUser = () => {
 
     try {
       const data = await userAPI.getLoggedInUser();
-      dispatch(fetchUsersSuccess(data));
+      dispatch(fetchSingleUser(data));
     } catch {
       dispatch(fetchUsersFailure("Error 403"));
     }
@@ -99,7 +107,7 @@ export const loginUser = newUser => {
     try {
       await userAPI.loginUser(newUser);
       const data = await userAPI.getLoggedInUser();
-      dispatch(fetchUsersSuccess(data));
+      dispatch(fetchSingleUser(data));
     } catch {
       dispatch(fetchUsersFailure("Error 403"));
     }

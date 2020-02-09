@@ -4,6 +4,7 @@ import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
 import { onModalClose, postUser } from "../../redux/actions/actions";
+import showPassword from '../../assets/show-password.png';
 
 const SignUpModal = ({ onModalClose, isOpen, postUser }) => {
   useEffect(() => {
@@ -73,14 +74,21 @@ const SignUpModal = ({ onModalClose, isOpen, postUser }) => {
               onChange={e => setNewEmail(e.target.value)}
               required
             />
-            <input
-              type="text"
-              defaultValue=""
-              placeholder="Password"
-              className={styles.addUserInput}
-              onChange={e => setNewPassword(e.target.value)}
-              required
-            />
+
+            <div className={styles.passwordContainer}>
+              <input
+                type="password"
+                defaultValue=""
+                placeholder="Password"
+                className={styles.addUserInput}
+                onChange={e => setNewPassword(e.target.value)}
+                required
+              />
+
+              <div className={styles.showPassword}>
+                <img className={styles.showPasswordImg} src={showPassword} alt="show" />
+              </div>
+            </div>
 
             <input
               className={styles.addUserButton}
