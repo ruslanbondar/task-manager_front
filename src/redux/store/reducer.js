@@ -4,7 +4,8 @@ import * as actionTypes from '../actions/actions';
     data: [],
     error: '',
     loading: false,
-    isOpen: false
+    isOpen: false,
+    isLoginOpen: false
   };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +40,18 @@ const reducer = (state = initialState, action) => {
           return {
             ...state,
             isOpen: false
+          };
+
+        case actionTypes.ON_LOGIN_OPEN:
+          return {
+            ...state,
+            isLoginOpen: true
+          };
+
+        case actionTypes.ON_LOGIN_CLOSE:
+          return {
+            ...state,
+            isLoginOpen: false
           };
 
         default:

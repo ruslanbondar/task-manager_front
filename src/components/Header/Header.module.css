@@ -4,6 +4,12 @@
   background: #252525;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .buttonContainer {
 	display: flex;
 	flex-direction: column;
@@ -19,6 +25,10 @@
 	font-weight: bold;
 	border: none;
 	outline: 0;
+}
+
+.homeButton {
+  font-size: 20px;
 }
 
 .addUserButton:hover {

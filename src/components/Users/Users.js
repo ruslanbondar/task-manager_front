@@ -12,11 +12,15 @@ const Users = ({ data, getUsers }) => {
 
   return (
     <div className="container">
-      {data.map(user => (
-        <ul key={user._id}>
-          <li>{user.name}</li>
-        </ul>
-      ))}
+      <div className={styles.usersContainer}>
+        {data.map(user => (
+          <div className={styles.userInfo} key={user._id}>
+            <p>Name: {user.name}</p>
+            <p>Age: {user.age}</p>
+            <p>Email: {user.email}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -11,6 +11,10 @@ export const userAPI = {
     const res = await instance.get('users');
     return res.data;
   },
+  async getLoggedInUser() {
+    const res = await instance.get('users/me');
+    return res.data;
+  },
   async postUser(data) {
     const res = await instance.post('users', data);
     return res.data;
