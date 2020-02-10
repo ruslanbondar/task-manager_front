@@ -83,10 +83,6 @@
   color: rgb(185, 184, 184);
 }
 
-.showPassword:hover {
-  text-decoration: underline;
-}
-
 .showPasswordImg {
   width: 15px;
   height: 15px;

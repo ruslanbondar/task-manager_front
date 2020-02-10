@@ -4,6 +4,7 @@ import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
 import { onLoginClose, loginUser } from "../../redux/actions/actions";
+import showPassword from "../../assets/show-password.png";
 
 const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
   useEffect(() => {
@@ -21,6 +22,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
 
   const [newEmail, setNewEmail] = useState();
   const [newPassword, setNewPassword] = useState();
+  const [visible, setVisible] = useState(false);
 
   const signInUser = () => {
     const newUser = {
@@ -39,8 +41,8 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
   return (
     <>
       <div
-        className={`${styles.modal} ${isLoginOpen && styles.open} ${isLoginOpen ===
-          false && styles.close}`}
+        className={`${styles.modal} ${isLoginOpen &&
+          styles.open} ${isLoginOpen === false && styles.close}`}
       >
         <Button close className={styles.closeButton} onClick={onLoginClose} />
 
@@ -54,14 +56,47 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
               onChange={e => setNewEmail(e.target.value)}
               required
             />
-            <input
-              type="password"
-              defaultValue=""
-              placeholder="Password"
-              className={styles.addUserInput}
-              onChange={e => setNewPassword(e.target.value)}
-              required
-            />
+            {visible ? (
+              <div className={styles.passwordContainer}>
+                <input
+                  type="text"
+                  defaultValue=""
+                  placeholder="Password"
+                  className={styles.addUserInput}
+                  onChange={e => setNewPassword(e.target.value)}
+                  required
+                />
+
+                <div className={styles.showPassword}>
+                  <img
+                    className={styles.showPasswordImg}
+                    src={showPassword}
+                    alt="show"
+                    onClick={() => setVisible(false)}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className={styles.passwordContainer}>
+                <input
+                  type="password"
+                  defaultValue=""
+                  placeholder="Password"
+                  className={styles.addUserInput}
+                  onChange={e => setNewPassword(e.target.value)}
+                  required
+                />
+
+                <div className={styles.showPassword}>
+                  <img
+                    className={styles.showPasswordImg}
+                    src={showPassword}
+                    alt="show"
+                    onClick={() => setVisible(true)}
+                  />
+                </div>
+              </div>
+            )}
 
             <input
               className={styles.addUserButton}

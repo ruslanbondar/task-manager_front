@@ -6,7 +6,8 @@ import * as actionTypes from '../actions/actions';
     error: '',
     loading: false,
     isOpen: false,
-    isLoginOpen: false
+    isLoginOpen: false,
+    token: ''
   };
 
 const reducer = (state = initialState, action) => {
@@ -60,6 +61,12 @@ const reducer = (state = initialState, action) => {
           return {
             ...state,
             isLoginOpen: false
+          };
+
+        case actionTypes.GET_TOKEN:
+          return {
+            ...state,
+            token: action.token
           };
 
         default:

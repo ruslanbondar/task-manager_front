@@ -8,6 +8,7 @@ export const ON_MODAL_OPEN = 'ON_MODAL_OPEN';
 export const ON_MODAL_CLOSE = 'ON_MODAL_CLOSE';
 export const ON_LOGIN_OPEN = 'ON_LOGIN_OPEN';
 export const ON_LOGIN_CLOSE = 'ON_LOGIN_CLOSE';
+export const GET_TOKEN = 'GET_TOKEN';
 
 export const onModalOpen = () => {
   return {
@@ -60,6 +61,13 @@ const fetchUsersFailure = error => {
   };
 };
 
+const getToken = token => {
+  return {
+    type: GET_TOKEN,
+    token
+  };
+};
+
 export const getUsers = () => {
   return async dispatch => {
     dispatch(fetchUsersRequest());
@@ -105,7 +113,8 @@ export const loginUser = newUser => {
     dispatch(fetchUsersRequest());
 
     try {
-      await userAPI.loginUser(newUser);
+      const token = await userAPI.loginUser(newUser);
+      dispatch(getToken(token));
       const data = await userAPI.getLoggedInUser();
       dispatch(fetchSingleUser(data));
     } catch {

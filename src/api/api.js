@@ -17,11 +17,23 @@ export const userAPI = {
   },
   async postUser(data) {
     const res = await instance.post('users', data);
+    console.log(res.data)
     return res.data;
   },
   async loginUser(data) {
     const res = await instance.post('users/login', data);
-    return res.data;
+    const token = res.data.token;
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    return token;
+    // const formData = new FormData();
+    // for (const key in data) {
+    //   formData.append(key, data[key]);
+    // }
+    // return await instance.post('users/login', formData, {
+    //   headers: {
+    //     'Access-Control-Allow-Origin': 'include',
+    //   },
+    // });
   },
   async updateUser(data) {
     const res = await instance.patch('users/single', data);
