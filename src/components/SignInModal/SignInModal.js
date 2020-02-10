@@ -6,7 +6,7 @@ import Backdrop from "../Backdrop/Backdrop";
 import { onLoginClose, loginUser } from "../../redux/actions/actions";
 import showPassword from "../../assets/show-password.png";
 
-const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
+const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, token }) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -19,7 +19,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [onLoginClose]);
-
+  
   const [newEmail, setNewEmail] = useState();
   const [newPassword, setNewPassword] = useState();
   const [visible, setVisible] = useState(false);
@@ -113,7 +113,8 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
 
 const mapStateToProps = state => {
   return {
-    isLoginOpen: state.isLoginOpen
+    isLoginOpen: state.isLoginOpen,
+    token: state.token
   };
 };
 

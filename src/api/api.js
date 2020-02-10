@@ -1,30 +1,37 @@
 import * as axios from "axios";
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:3001/',
+  baseURL: "http://localhost:3001/",
   // withCredentials: true,
   headers: {}
 });
 
 export const userAPI = {
   async getUsers() {
-    const res = await instance.get('users');
+    const res = await instance.get("users");
     return res.data;
   },
   async getLoggedInUser() {
-    const res = await instance.get('users/me');
+    const res = await instance.get("users/me");
     return res.data;
   },
   async postUser(data) {
-    const res = await instance.post('users', data);
-    console.log(res.data)
+    const res = await instance.post("users", data);
     return res.data;
   },
   async loginUser(data) {
-    const res = await instance.post('users/login', data);
-    const token = res.data.token;
-    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    return token;
+    const res = await instance.post("users/login", data);
+    // const token = localStorage.getItem("user-token");
+    // if (token) {
+    //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // }
+    // localStorage["user-token"] = res.data.token;
+    // axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+    // delete axios.defaults.headers.common["Authorization"];
+    // localStorage.removeItem("user-token");
+    // axios.defaults.headers.common["Content-Type"] = "application/json";
+
+    return res.data.token;
     // const formData = new FormData();
     // for (const key in data) {
     //   formData.append(key, data[key]);
@@ -36,11 +43,11 @@ export const userAPI = {
     // });
   },
   async updateUser(data) {
-    const res = await instance.patch('users/single', data);
+    const res = await instance.patch("users/single", data);
     return res.data;
   },
   async deleteUser(id) {
-    const res = await instance.delete('users/single', id);
+    const res = await instance.delete("users/single", id);
     return res.data;
-  },
+  }
 };

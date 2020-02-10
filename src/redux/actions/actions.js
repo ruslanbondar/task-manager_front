@@ -99,7 +99,9 @@ export const postUser = newUser => {
     dispatch(fetchUsersRequest());
 
     try {
-      await userAPI.postUser(newUser);
+      const token = await userAPI.postUser(newUser);
+      dispatch(getToken(token));
+      console.log(token.token)
       const data = await userAPI.getUsers();
       dispatch(fetchUsersSuccess(data));
     } catch {
@@ -108,7 +110,7 @@ export const postUser = newUser => {
   };
 };
 
-export const loginUser = newUser => {
+export const loginUser = (newUser) => {
   return async dispatch => {
     dispatch(fetchUsersRequest());
 

@@ -7,7 +7,7 @@ import {
   getLoggedInUser
 } from "../../redux/actions/actions";
 
-const Home = ({ onModalOpen, onLoginOpen, getLoggedInUser, user }) => {
+const Home = ({ onModalOpen, onLoginOpen, getLoggedInUser, user, token }) => {
   const getLoggedInUserCallback = useCallback(() => {
     getLoggedInUser();
   }, [getLoggedInUser]);
@@ -37,14 +37,15 @@ const Home = ({ onModalOpen, onLoginOpen, getLoggedInUser, user }) => {
           if you have one
         </h3>
       </div>
-      <h1>{name}</h1>
+      <h1>Hello{!!token && token.user.name}</h1>
     </div>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.singleUser
+    user: state.singleUser,
+    token: state.token
   };
 };
 
