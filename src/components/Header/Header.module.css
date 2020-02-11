@@ -4,6 +4,11 @@
   background: #252525;
 }
 
+.subContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
@@ -29,6 +34,7 @@
 
 .homeButton {
   font-size: 20px;
+  margin-right: 30px;
 }
 
 .addUserButton:hover {

@@ -1,53 +1,60 @@
 import * as axios from "axios";
 
-export const instance = axios.create({
-  baseURL: "http://localhost:3001/",
-  // withCredentials: true,
-  headers: {}
-});
+axios.defaults.baseURL = "http://localhost:3001/";
+
+const token = localStorage.getItem("user-token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 
 export const userAPI = {
   async getUsers() {
-    const res = await instance.get("users");
+    const res = await axios.get("users");
     return res.data;
   },
   async getLoggedInUser() {
-    const res = await instance.get("users/me");
+    const res = await axios.get("users/me");
     return res.data;
   },
   async postUser(data) {
-    const res = await instance.post("users", data);
+    const res = await axios.post("users", data);
     return res.data;
   },
   async loginUser(data) {
-    const res = await instance.post("users/login", data);
-    // const token = localStorage.getItem("user-token");
-    // if (token) {
-    //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // }
-    // localStorage["user-token"] = res.data.token;
-    // axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-    // delete axios.defaults.headers.common["Authorization"];
-    // localStorage.removeItem("user-token");
-    // axios.defaults.headers.common["Content-Type"] = "application/json";
-
-    return res.data.token;
-    // const formData = new FormData();
-    // for (const key in data) {
-    //   formData.append(key, data[key]);
-    // }
-    // return await instance.post('users/login', formData, {
-    //   headers: {
-    //     'Access-Control-Allow-Origin': 'include',
-    //   },
-    // });
+    const res = await axios.post("users/login", data);
+    localStorage["user-token"] = res.data.token;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+    return res.data;
+  },
+  async logoutUser() {
+    const res = await axios.post('users/logout');
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("user-token");
+    return res.data;
   },
   async updateUser(data) {
-    const res = await instance.patch("users/single", data);
+    const res = await axios.patch("users/me", data);
     return res.data;
   },
-  async deleteUser(id) {
-    const res = await instance.delete("users/single", id);
+  async deleteUser() {
+    const res = await axios.delete("users/me");
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("user-token");
     return res.data;
+  },
+  async addPhoto(newData) {
+    const formData = new FormData();
+    for (const key in newData) {
+      formData.append(key, newData[key]);
+    }
+    return await axios.post('users/me/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
+};
+
+export const taskAPI = {
+
 };
