@@ -1,0 +1,13 @@
+.tasksBlock {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.task {
+}
+
+.done {
+  text-decoration: line-through;
+  color: #8bc34a;
+}

@@ -1,4 +1,5 @@
 import { userAPI } from "../../api/api";
+import { taskAPI } from "../../api/api";
 
 export const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
@@ -178,6 +179,62 @@ export const getPhoto = () => {
       dispatch(fetchSingleUser(data));
     } catch {
       dispatch(fetchUsersFailure("Error 403"));
+    }
+  };
+};
+
+
+
+// ************************tasks*******************************
+
+
+export const FETCH_TASKS_REQUEST = "FETCH_TASKS_REQUEST";
+export const FETCH_TASKS_SUCCESS = "FETCH_TASKS_SUCCESS";
+export const FETCH_TASKS_FAILURE = "FETCH_TASKS_FAILURE";
+
+const fetchTasksRequest = () => {
+  return {
+    type: FETCH_TASKS_REQUEST
+  };
+};
+
+const fetchTasksSuccess = data => {
+  return {
+    type: FETCH_TASKS_SUCCESS,
+    data
+  };
+};
+
+const fetchTasksFailure = error => {
+  return {
+    type: FETCH_TASKS_FAILURE,
+    payload: error
+  };
+};
+
+export const getTasks = (id) => {
+  return async dispatch => {
+    dispatch(fetchTasksRequest());
+
+    try {
+      const data = await taskAPI.getTasksById(id);
+      dispatch(fetchTasksSuccess(data));
+    } catch {
+      dispatch(fetchTasksFailure("Error 403"));
+    }
+  };
+};
+
+export const postTask = (id) => {
+  return async dispatch => {
+    dispatch(fetchTasksRequest());
+
+    try {
+      await taskAPI.postTask();
+      const data = await taskAPI.getTasksById(id);
+      dispatch(fetchTasksSuccess(data));
+    } catch {
+      dispatch(fetchTasksFailure("Error 403"));
     }
   };
 };
