@@ -225,13 +225,13 @@ export const getTasks = (id) => {
   };
 };
 
-export const postTask = (id) => {
+export const postTask = (newData) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
-      await taskAPI.postTask();
-      const data = await taskAPI.getTasksById(id);
+      await taskAPI.postTask(newData);
+      const data = await taskAPI.getTasksById();
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));

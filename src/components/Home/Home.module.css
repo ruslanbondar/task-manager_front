@@ -1,5 +1,5 @@
 .home {
-  min-height: 520px;
+  min-height: 620px;
   font-family: Arial, Helvetica, sans-serif;
   color: #252525;
 }
@@ -24,4 +24,35 @@
 
 .underline:hover {
   opacity: .5;
+}
+
+.formContainer {
+  width: 60%;
+  margin: 30px auto;
+}
+
+.taskForm {
+  height: 40px;
+  display: flex;
+}
+
+.addInput {
+  width: 200px;
+  outline: 0;
+  padding-left: 15px;
+}
+
+.addButton {
+  width: 90px;
+  border: none;
+  cursor: pointer;
+  background: #3dd15e;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: bold;
+  outline: 0;
+}
+
+.addButton:hover {
+  background: #2e762d;
 }

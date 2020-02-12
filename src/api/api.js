@@ -68,8 +68,8 @@ export const taskAPI = {
     const res = await axios.get(`tasks?id=${id}`);
     return res.data;
   },
-  async postTask() {
-    const res = await axios.post('tasks');
+  async postTask(newData) {
+    const res = await axios.post('tasks', newData);
     return res.data;
   }
 };

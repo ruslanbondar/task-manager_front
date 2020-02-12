@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import styles from "./Tasks.module.css";
 import Checkbox from "@material-ui/core/Checkbox";
-import { postTask } from '../../../redux/actions/actions';
 
 const materialStyles = {
   checkbox: {
@@ -10,8 +9,7 @@ const materialStyles = {
   }
 };
 
-const Tasks = ({ description, completed, _id, owner, postTask }) => {
-  const [newTask, setNewTask] = useState();
+const Tasks = ({ description, completed, _id, owner }) => {
 
   return (
     <div className={styles.tasksBlock}>
@@ -23,4 +21,4 @@ const Tasks = ({ description, completed, _id, owner, postTask }) => {
   );
 };
 
-export default connect(null, { postTask })(Tasks);
+export default connect(null, {})(Tasks);

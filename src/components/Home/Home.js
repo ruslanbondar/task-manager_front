@@ -1,12 +1,13 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import styles from "./Home.module.css";
-import Tasks from './Tasks/Tasks';
+import Tasks from "./Tasks/Tasks";
 import {
   onModalOpen,
   onLoginOpen,
   getLoggedInUser,
-  getTasks
+  getTasks,
+  postTask
 } from "../../redux/actions/actions";
 
 const Home = ({
@@ -15,7 +16,8 @@ const Home = ({
   getLoggedInUser,
   user,
   getTasks,
-  tasks
+  tasks,
+  postTask
 }) => {
   const { name, _id } = user;
 
@@ -32,6 +34,23 @@ const Home = ({
     getTasksCallback(_id);
   }, [getLoggedInUserCallback, getTasksCallback, _id]);
 
+  const [newTask, setNewTask] = useState();
+
+  const addTask = () => {
+    const newData = {
+      description: newTask,
+      owner: _id
+    };
+    postTask(newData);
+  };
+
+  const submitChanges = e => {
+    const form = e.target;
+    addTask();
+    e.preventDefault();
+    form.reset();
+  };
+
   return (
     <div className="container">
       {localStorage["user-token"] ? (
@@ -42,8 +61,20 @@ const Home = ({
           <div>
             {tasks &&
               tasks.map(task => {
-                return <Tasks {...task} key={task._id} />
+                return <Tasks {...task} key={task._id} />;
               })}
+
+            <div className={styles.formContainer}>
+              <form onSubmit={submitChanges} className={styles.taskForm}>
+                <input
+                  className={styles.addInput}
+                  type="text"
+                  placeholder="Write your task"
+                  onChange={e => setNewTask(e.target.value)}
+                />
+                <input className={styles.addButton} type="submit" value="add" />
+              </form>
+            </div>
           </div>
         </div>
       ) : (
@@ -80,5 +111,6 @@ export default connect(mapStateToProps, {
   onModalOpen,
   onLoginOpen,
   getLoggedInUser,
-  getTasks
+  getTasks,
+  postTask
 })(Home);
