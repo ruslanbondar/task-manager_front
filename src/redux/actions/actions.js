@@ -158,7 +158,23 @@ export const addPhoto = (newData) => {
     dispatch(fetchUsersRequest());
 
     try {
-      const data = await userAPI.addPhoto(newData);
+      await userAPI.addPhoto(newData);
+      // await userAPI.getPhoto();
+      const data = await userAPI.getLoggedInUser();
+      dispatch(fetchSingleUser(data));
+    } catch {
+      dispatch(fetchUsersFailure("Error 403"));
+    }
+  };
+};
+
+export const getPhoto = () => {
+  return async dispatch => {
+    dispatch(fetchUsersRequest());
+
+    try {
+      await userAPI.getPhoto();
+      const data = await userAPI.getLoggedInUser();
       dispatch(fetchSingleUser(data));
     } catch {
       dispatch(fetchUsersFailure("Error 403"));

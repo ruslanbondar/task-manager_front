@@ -53,3 +53,12 @@
 .avatarInput {
   margin-bottom: 15px;
 }
+
+.imgContainer {
+  width: 200px;
+  height: 250px;
+}
+
+.avatar {
+  width: 100%;
+}

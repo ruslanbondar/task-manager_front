@@ -4,7 +4,7 @@ import styles from "./Profile.module.css";
 import {
   updateUser,
   getLoggedInUser,
-  addPhoto
+  addPhoto,
 } from "../../redux/actions/actions";
 
 const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
@@ -16,7 +16,8 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
     getLoggedInUserCallback();
   }, [getLoggedInUserCallback]);
 
-  const { name, email, age } = user;
+  const { name, email, age, _id, avatar } = user;
+  const imgUrl = `http://localhost:3001/users/${_id}/data:image/jpg;base64,${avatar}`;
 
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState();
@@ -58,7 +59,6 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
     setAvatar();
     e.preventDefault();
   };
-  console.log(photo)
 
   return (
     <div className={styles.profile}>
@@ -70,6 +70,11 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
                 <h3 className={styles.infoTitle}>{name}</h3>
                 <h3 className={styles.infoTitle}>{age}</h3>
                 <h3 className={styles.infoTitle}>{email}</h3>
+                {user && photo && (
+                  <div className={styles.imgContainer}>
+                    <img className={styles.avatar} src={imgUrl} alt="avatar" />
+                  </div>
+                )}
               </div>
               <div className={styles.buttonBlock}>
                 <button
@@ -128,5 +133,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   updateUser,
   getLoggedInUser,
-  addPhoto
+  addPhoto,
 })(Profile);

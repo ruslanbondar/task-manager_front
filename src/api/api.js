@@ -52,6 +52,10 @@ export const userAPI = {
         'Content-Type': 'multipart/form-data',
       },
     });
+  },
+  async getPhoto() {
+    const res = await axios.get(`users/me/avatar`);
+    return res.data;
   }
 };
 
