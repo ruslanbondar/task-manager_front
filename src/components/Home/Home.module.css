@@ -23,7 +23,7 @@
 }
 
 .underline:hover {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .formContainer {
@@ -32,8 +32,11 @@
 }
 
 .taskForm {
+  width: 290px;
   height: 40px;
   display: flex;
+  margin: 0 auto;
+  margin-bottom: 60px;
 }
 
 .addInput {
@@ -55,4 +58,17 @@
 
 .addButton:hover {
   background: #2e762d;
+}
+
+.selectBlock {
+  width: 55%;
+  margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskSelect {
+  width: 213px;
+  height: 28px;
+  padding-left: 12px;
 }

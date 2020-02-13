@@ -7,7 +7,9 @@ import {
   onLoginOpen,
   getLoggedInUser,
   getTasks,
-  postTask
+  postTask,
+  sortHandler,
+  sortByDateHandler
 } from "../../redux/actions/actions";
 
 const Home = ({
@@ -17,7 +19,12 @@ const Home = ({
   user,
   getTasks,
   tasks,
-  postTask
+  postTask,
+  currentPage,
+  onCompleted,
+  sortHandler,
+  date,
+  sortByDateHandler
 }) => {
   const { name, _id } = user;
 
@@ -26,13 +33,13 @@ const Home = ({
   }, [getLoggedInUser]);
 
   const getTasksCallback = useCallback(() => {
-    getTasks(_id);
-  }, [getTasks, _id]);
+    getTasks(currentPage, onCompleted, date);
+  }, [getTasks, currentPage, onCompleted, date]);
 
   useEffect(() => {
     getLoggedInUserCallback();
-    getTasksCallback(_id);
-  }, [getLoggedInUserCallback, getTasksCallback, _id]);
+    getTasksCallback();
+  }, [getLoggedInUserCallback, getTasksCallback]);
 
   const [newTask, setNewTask] = useState();
 
@@ -56,9 +63,37 @@ const Home = ({
       {localStorage["user-token"] ? (
         <div className={styles.home}>
           <h1 className={styles.title}>Hello, {name}</h1>
-          <h3 className={styles.subTitle}>Please, create your tasks</h3>
+          {tasks.length ? (
+            <h3 className={styles.subTitle}>You have some tasks to do</h3>
+          ) : (
+            <h3 className={styles.subTitle}>
+              You have no tasks. Please, create some
+            </h3>
+          )}
 
           <div>
+            {tasks.length ? (
+              <div className={styles.selectBlock}>
+                <select
+                  className={styles.taskSelect}
+                  value={onCompleted}
+                  onChange={e => sortHandler(e.target.value)}
+                >
+                  <option value="false">Active</option>
+                  <option value="true">Completed</option>
+                </select>
+
+                <select
+                  className={styles.taskSelect}
+                  value={date}
+                  onChange={e => sortByDateHandler(e.target.value)}
+                >
+                  <option value="desc">Desc</option>
+                  <option value="asc">Asc</option>
+                </select>
+              </div>
+            ) : null}
+            
             {tasks &&
               tasks.map(task => {
                 return <Tasks {...task} key={task._id} />;
@@ -103,7 +138,10 @@ const Home = ({
 const mapStateToProps = state => {
   return {
     user: state.singleUser,
-    tasks: state.tasks
+    tasks: state.tasks,
+    currentPage: state.currentPage,
+    onCompleted: state.completed,
+    date: state.date
   };
 };
 
@@ -112,5 +150,7 @@ export default connect(mapStateToProps, {
   onLoginOpen,
   getLoggedInUser,
   getTasks,
-  postTask
+  postTask,
+  sortHandler,
+  sortByDateHandler
 })(Home);

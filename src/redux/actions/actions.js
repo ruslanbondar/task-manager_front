@@ -9,6 +9,9 @@ export const ON_MODAL_OPEN = "ON_MODAL_OPEN";
 export const ON_MODAL_CLOSE = "ON_MODAL_CLOSE";
 export const ON_LOGIN_OPEN = "ON_LOGIN_OPEN";
 export const ON_LOGIN_CLOSE = "ON_LOGIN_CLOSE";
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+export const SORT_HANDLER = 'SORT_HANDLER';
+export const SORT_BY_DATE_HANDLER = 'SORT_BY_DATE_HANDLER';
 
 export const onModalOpen = () => {
   return {
@@ -212,12 +215,12 @@ const fetchTasksFailure = error => {
   };
 };
 
-export const getTasks = (id) => {
+export const getTasks = (page, done, date) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
-      const data = await taskAPI.getTasksById(id);
+      const data = await taskAPI.getTasks(page, done, date);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -231,10 +234,58 @@ export const postTask = (newData) => {
 
     try {
       await taskAPI.postTask(newData);
-      const data = await taskAPI.getTasksById();
+      const data = await taskAPI.getTasks();
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
     }
+  };
+};
+
+export const updateTask = (newData, id) => {
+  return async dispatch => {
+    dispatch(fetchTasksRequest());
+
+    try {
+      await taskAPI.updateTask(newData, id);
+      const data = await taskAPI.getTasks();
+      dispatch(fetchTasksSuccess(data));
+    } catch {
+      dispatch(fetchTasksFailure("Error 403"));
+    }
+  };
+};
+
+export const deleteTask = (id) => {
+  return async dispatch => {
+    dispatch(fetchTasksRequest());
+
+    try {
+      await taskAPI.deleteTask(id);
+      const data = await taskAPI.getTasks();
+      dispatch(fetchTasksSuccess(data));
+    } catch {
+      dispatch(fetchTasksFailure("Error 403"));
+    }
+  };
+};
+
+export const setCurrentPage = page => {
+  return {
+    type: SET_CURRENT_PAGE,
+    payload: page,
+  };
+};
+
+export const sortHandler = event => {
+  return {
+    type: SORT_HANDLER,
+    payload: event,
+  };
+};
+export const sortByDateHandler = event => {
+  return {
+    type: SORT_BY_DATE_HANDLER,
+    payload: event,
   };
 };

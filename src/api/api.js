@@ -60,8 +60,8 @@ export const userAPI = {
 };
 
 export const taskAPI = {
-  async getTasks() {
-    const res = await axios.get('tasks');
+  async getTasks(page, done, date) {
+    const res = await axios.get(`tasks?limit=10&sortBy=createdAt:${date}&page=${page}&completed=${done}`);
     return res.data;
   },
   async getTasksById(id) {
@@ -70,6 +70,14 @@ export const taskAPI = {
   },
   async postTask(newData) {
     const res = await axios.post('tasks', newData);
+    return res.data;
+  },
+  async updateTask(newData, id) {
+    const res = await axios.patch(`tasks/${id}`, newData);
+    return res.data;
+  },
+  async deleteTask(id) {
+    const res = await axios.delete(`tasks/${id}`);
     return res.data;
   }
 };

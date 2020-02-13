@@ -7,7 +7,10 @@ const initialState = {
   loading: false,
   isOpen: false,
   isLoginOpen: false,
-  tasks: []
+  tasks: [],
+  currentPage: 1,
+  completed: false,
+  date: 'desc'
 };
 
 const reducer = (state = initialState, action) => {
@@ -83,6 +86,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload
+      };
+
+    case actionTypes.SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload
+      };
+
+    case actionTypes.SORT_HANDLER:
+      return {
+        ...state,
+        completed: action.payload
+      };
+    case actionTypes.SORT_BY_DATE_HANDLER:
+      return {
+        ...state,
+        date: action.payload
       };
 
     default:

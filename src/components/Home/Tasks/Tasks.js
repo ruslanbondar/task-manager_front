@@ -1,7 +1,10 @@
-import React from "react";
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import styles from "./Tasks.module.css";
 import Checkbox from "@material-ui/core/Checkbox";
+import { updateTask, deleteTask } from "../../../redux/actions/actions";
+import deleteIcon from "../../../assets/deleteItem.svg";
+import editIcon from "../../../assets/edit.svg";
 
 const materialStyles = {
   checkbox: {
@@ -9,16 +12,83 @@ const materialStyles = {
   }
 };
 
-const Tasks = ({ description, completed, _id, owner }) => {
+const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
+  const [editing, setEditing] = useState(false);
+  const [task, setTask] = useState();
+
+  useEffect(() => {
+    if (task) {
+      setTask(task);
+    }
+  }, [task]);
+
+  const setUpdate = () => {
+    const newData = {
+      description: task
+    };
+    updateTask(newData, _id);
+  };
+
+  const toComplete = () => {
+    const newData = {
+      completed: !completed
+    };
+    updateTask(newData, _id);
+  };
+
+  const submitChanges = e => {
+    setEditing(false);
+    setUpdate();
+    e.preventDefault();
+  };
 
   return (
     <div className={styles.tasksBlock}>
-      <Checkbox style={materialStyles.checkbox} />
-      <p className={`${styles.task} ${completed && styles.done}`}>
-        {description}
-      </p>
+      {!editing ? (
+        <div className={styles.nonEditingBlock}>
+          <div className={styles.checkboxBlock}>
+            <Checkbox checked={completed} style={materialStyles.checkbox} onChange={toComplete} />
+            <p className={`${styles.task} ${completed && styles.done}`}>
+              {description}
+            </p>
+          </div>
+
+          <div>
+            <img
+              src={editIcon}
+              alt="edit"
+              className={styles.editImg}
+              onClick={() => setEditing(true)}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className={styles.editingBlock}>
+          <div className={styles.formContainer}>
+            <form className={styles.taskForm} onSubmit={submitChanges}>
+              <input
+                type="text"
+                defaultValue={description}
+                onChange={e => setTask(e.target.value)}
+                className={styles.addInput}
+                autoFocus
+              />
+              <input type="submit" value="save" className={styles.addButton} />
+            </form>
+
+            <div>
+              <img
+                src={deleteIcon}
+                alt="edit"
+                className={styles.deleteImg}
+                onClick={() => deleteTask(_id)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default connect(null, {})(Tasks);
+export default connect(null, { updateTask, deleteTask })(Tasks);
