@@ -48,7 +48,7 @@ const Home = ({
       description: newTask,
       owner: _id
     };
-    postTask(newData);
+    postTask(newData, currentPage, onCompleted, date);
   };
 
   const submitChanges = e => {
@@ -67,33 +67,32 @@ const Home = ({
             <h3 className={styles.subTitle}>You have some tasks to do</h3>
           ) : (
             <h3 className={styles.subTitle}>
-              You have no tasks. Please, create some
+              You have no tasks in this category
             </h3>
           )}
 
           <div>
-            {tasks.length ? (
-              <div className={styles.selectBlock}>
-                <select
-                  className={styles.taskSelect}
-                  value={onCompleted}
-                  onChange={e => sortHandler(e.target.value)}
-                >
-                  <option value="false">Active</option>
-                  <option value="true">Completed</option>
-                </select>
+            <div className={styles.selectBlock}>
+              <select
+                className={styles.taskSelect}
+                value={onCompleted}
+                onChange={e => sortHandler(e.target.value)}
+              >
+                <option value="">Default</option>
+                <option value={false}>Active</option>
+                <option value={true}>Completed</option>
+              </select>
 
-                <select
-                  className={styles.taskSelect}
-                  value={date}
-                  onChange={e => sortByDateHandler(e.target.value)}
-                >
-                  <option value="desc">Desc</option>
-                  <option value="asc">Asc</option>
-                </select>
-              </div>
-            ) : null}
-            
+              <select
+                className={styles.taskSelect}
+                value={date}
+                onChange={e => sortByDateHandler(e.target.value)}
+              >
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+              </select>
+            </div>
+
             {tasks &&
               tasks.map(task => {
                 return <Tasks {...task} key={task._id} />;
@@ -106,6 +105,7 @@ const Home = ({
                   type="text"
                   placeholder="Write your task"
                   onChange={e => setNewTask(e.target.value)}
+                  required
                 />
                 <input className={styles.addButton} type="submit" value="add" />
               </form>

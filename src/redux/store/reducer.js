@@ -9,7 +9,7 @@ const initialState = {
   isLoginOpen: false,
   tasks: [],
   currentPage: 1,
-  completed: false,
+  completed: '',
   date: 'desc'
 };
 

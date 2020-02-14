@@ -228,13 +228,13 @@ export const getTasks = (page, done, date) => {
   };
 };
 
-export const postTask = (newData) => {
+export const postTask = (newData, page, done, date) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.postTask(newData);
-      const data = await taskAPI.getTasks();
+      const data = await taskAPI.getTasks(page, done, date);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -242,13 +242,13 @@ export const postTask = (newData) => {
   };
 };
 
-export const updateTask = (newData, id) => {
+export const updateTask = (newData, id, page, done, date) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.updateTask(newData, id);
-      const data = await taskAPI.getTasks();
+      const data = await taskAPI.getTasks(page, done, date);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -256,13 +256,13 @@ export const updateTask = (newData, id) => {
   };
 };
 
-export const deleteTask = (id) => {
+export const deleteTask = (id, page, done, date) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.deleteTask(id);
-      const data = await taskAPI.getTasks();
+      const data = await taskAPI.getTasks(page, done, date);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));

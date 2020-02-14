@@ -12,7 +12,16 @@ const materialStyles = {
   }
 };
 
-const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
+const Tasks = ({
+  description,
+  completed,
+  _id,
+  updateTask,
+  deleteTask,
+  currentPage,
+  onCompleted,
+  date
+}) => {
   const [editing, setEditing] = useState(false);
   const [task, setTask] = useState();
 
@@ -26,14 +35,14 @@ const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
     const newData = {
       description: task
     };
-    updateTask(newData, _id);
+    updateTask(newData, _id, currentPage, onCompleted, date);
   };
 
   const toComplete = () => {
     const newData = {
       completed: !completed
     };
-    updateTask(newData, _id);
+    updateTask(newData, _id, currentPage, onCompleted, date);
   };
 
   const submitChanges = e => {
@@ -47,7 +56,11 @@ const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
       {!editing ? (
         <div className={styles.nonEditingBlock}>
           <div className={styles.checkboxBlock}>
-            <Checkbox checked={completed} style={materialStyles.checkbox} onChange={toComplete} />
+            <Checkbox
+              checked={completed}
+              style={materialStyles.checkbox}
+              onChange={toComplete}
+            />
             <p className={`${styles.task} ${completed && styles.done}`}>
               {description}
             </p>
@@ -81,7 +94,7 @@ const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
                 src={deleteIcon}
                 alt="edit"
                 className={styles.deleteImg}
-                onClick={() => deleteTask(_id)}
+                onClick={() => deleteTask(_id, currentPage, onCompleted, date)}
               />
             </div>
           </div>
@@ -91,4 +104,12 @@ const Tasks = ({ description, completed, _id, updateTask, deleteTask }) => {
   );
 };
 
-export default connect(null, { updateTask, deleteTask })(Tasks);
+const mapStateToProps = state => {
+  return {
+    currentPage: state.currentPage,
+    onCompleted: state.completed,
+    date: state.date
+  };
+};
+
+export default connect(mapStateToProps, { updateTask, deleteTask })(Tasks);
