@@ -1,6 +1,9 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { Link, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import styles from "./Home.module.css";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Tasks from "./Tasks/Tasks";
 import {
   onModalOpen,
@@ -77,52 +80,61 @@ const Home = ({
             </h3>
           )}
 
+          <Link to="/">
+            <button>get started</button>
+          </Link>
+
           <div>
-            <div className={styles.selectBlock}>
-              <select
-                className={styles.taskSelect}
-                value={onCompleted}
-                onChange={e => sortHandler(e.target.value)}
-              >
-                <option value="">Default</option>
-                <option value={false}>Active</option>
-                <option value={true}>Completed</option>
-              </select>
+            <Route
+              path="/"
+              render={() => {
+                return (
+                  <>
+                    <div className={styles.selectBlock}>
+                      <select
+                        className={styles.taskSelect}
+                        value={onCompleted}
+                        onChange={e => sortHandler(e.target.value)}
+                      >
+                        <option value="">Default</option>
+                        <option value={false}>Active</option>
+                        <option value={true}>Completed</option>
+                      </select>
 
-              <select
-                className={styles.taskSelect}
-                value={date}
-                onChange={e => sortByDateHandler(e.target.value)}
-              >
-                <option value="desc">Descending</option>
-                <option value="asc">Ascending</option>
-              </select>
-            </div>
+                      <select
+                        className={styles.taskSelect}
+                        value={date}
+                        onChange={e => sortByDateHandler(e.target.value)}
+                      >
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
+                      </select>
+                    </div>
 
-            {tasks &&
-              tasks.map(task => {
-                return <Tasks {...task} key={task._id} />;
-              })}
+                    {tasks &&
+                      tasks.map(task => {
+                        return <Tasks {...task} key={task._id} />;
+                      })}
 
-            <div className={styles.skipButtonsContainer}>
-              {skip > 0 && (
-                <button
-                  className={styles.prev}
-                  onClick={() => skipHandler(prev)}
-                >
-                  prev
-                </button>
-              )}
+                    <div className={styles.skipButtonsContainer}>
+                      {skip > 0 && (
+                        <ArrowBackIcon
+                          className={styles.prev}
+                          onClick={() => skipHandler(prev)}
+                        ></ArrowBackIcon>
+                      )}
 
-              {tasks.length === 7 && (
-                <button
-                  className={styles.next}
-                  onClick={() => skipHandler(next)}
-                >
-                  next
-                </button>
-              )}
-            </div>
+                      {tasks.length === 7 && (
+                        <ArrowForwardIcon
+                          className={styles.next}
+                          onClick={() => skipHandler(next)}
+                        ></ArrowForwardIcon>
+                      )}
+                    </div>
+                  </>
+                );
+              }}
+            />
 
             <div className={styles.formContainer}>
               <form onSubmit={submitChanges} className={styles.taskForm}>

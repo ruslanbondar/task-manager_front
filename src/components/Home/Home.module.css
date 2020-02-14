@@ -87,10 +87,8 @@
   width: 100px;
   height: 35px;
   cursor: pointer;
-  background: #252525;
-  color: #fff;
+  color: #252525;
   font-weight: bold;
-  border: 1px solid #252525;
   outline: 0;
 }
 
@@ -101,19 +99,15 @@
   width: 100px;
   height: 35px;
   cursor: pointer;
-  background: #252525;
-  color: #fff;
+  color: #252525;
   font-weight: bold;
-  border: 1px solid #252525;
   outline: 0;
 }
 
 .prev:hover {
-  color: #252525;
-  background-color: #fff;
+  transform: scale(1.1, 1.1);
 }
 
 .next:hover {
-  color: #252525;
-  background-color: #fff;
+  transform: scale(1.1, 1.1);
 }
