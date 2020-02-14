@@ -9,7 +9,8 @@ import {
   getTasks,
   postTask,
   sortHandler,
-  sortByDateHandler
+  sortByDateHandler,
+  skipHandler
 } from "../../redux/actions/actions";
 
 const Home = ({
@@ -24,7 +25,9 @@ const Home = ({
   onCompleted,
   sortHandler,
   date,
-  sortByDateHandler
+  sortByDateHandler,
+  skip,
+  skipHandler
 }) => {
   const { name, _id } = user;
 
@@ -33,8 +36,8 @@ const Home = ({
   }, [getLoggedInUser]);
 
   const getTasksCallback = useCallback(() => {
-    getTasks(currentPage, onCompleted, date);
-  }, [getTasks, currentPage, onCompleted, date]);
+    getTasks(currentPage, onCompleted, date, skip);
+  }, [getTasks, currentPage, onCompleted, date, skip]);
 
   useEffect(() => {
     getLoggedInUserCallback();
@@ -48,7 +51,7 @@ const Home = ({
       description: newTask,
       owner: _id
     };
-    postTask(newData, currentPage, onCompleted, date);
+    postTask(newData, currentPage, onCompleted, date, skip);
   };
 
   const submitChanges = e => {
@@ -57,6 +60,9 @@ const Home = ({
     e.preventDefault();
     form.reset();
   };
+
+  let prev = skip - 7;
+  let next = skip + 7;
 
   return (
     <div className="container">
@@ -97,6 +103,26 @@ const Home = ({
               tasks.map(task => {
                 return <Tasks {...task} key={task._id} />;
               })}
+
+            <div className={styles.skipButtonsContainer}>
+              {skip > 0 && (
+                <button
+                  className={styles.prev}
+                  onClick={() => skipHandler(prev)}
+                >
+                  prev
+                </button>
+              )}
+
+              {tasks.length === 7 && (
+                <button
+                  className={styles.next}
+                  onClick={() => skipHandler(next)}
+                >
+                  next
+                </button>
+              )}
+            </div>
 
             <div className={styles.formContainer}>
               <form onSubmit={submitChanges} className={styles.taskForm}>
@@ -141,7 +167,8 @@ const mapStateToProps = state => {
     tasks: state.tasks,
     currentPage: state.currentPage,
     onCompleted: state.completed,
-    date: state.date
+    date: state.date,
+    skip: state.skip
   };
 };
 
@@ -152,5 +179,6 @@ export default connect(mapStateToProps, {
   getTasks,
   postTask,
   sortHandler,
-  sortByDateHandler
+  sortByDateHandler,
+  skipHandler
 })(Home);

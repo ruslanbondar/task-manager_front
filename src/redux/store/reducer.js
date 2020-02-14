@@ -10,7 +10,8 @@ const initialState = {
   tasks: [],
   currentPage: 1,
   completed: '',
-  date: 'desc'
+  date: 'desc',
+  skip: 0
 };
 
 const reducer = (state = initialState, action) => {
@@ -103,6 +104,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         date: action.payload
+      };
+    case actionTypes.SKIP_HANDLER:
+      return {
+        ...state,
+        skip: action.payload
       };
 
     default:

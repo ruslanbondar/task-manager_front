@@ -11,6 +11,7 @@ export const ON_LOGIN_OPEN = "ON_LOGIN_OPEN";
 export const ON_LOGIN_CLOSE = "ON_LOGIN_CLOSE";
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SORT_HANDLER = 'SORT_HANDLER';
+export const SKIP_HANDLER = 'SKIP_HANDLER';
 export const SORT_BY_DATE_HANDLER = 'SORT_BY_DATE_HANDLER';
 
 export const onModalOpen = () => {
@@ -215,12 +216,12 @@ const fetchTasksFailure = error => {
   };
 };
 
-export const getTasks = (page, done, date) => {
+export const getTasks = (page, done, date, skip) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
-      const data = await taskAPI.getTasks(page, done, date);
+      const data = await taskAPI.getTasks(page, done, date, skip);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -228,13 +229,13 @@ export const getTasks = (page, done, date) => {
   };
 };
 
-export const postTask = (newData, page, done, date) => {
+export const postTask = (newData, page, done, date, skip) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.postTask(newData);
-      const data = await taskAPI.getTasks(page, done, date);
+      const data = await taskAPI.getTasks(page, done, date, skip);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -242,13 +243,13 @@ export const postTask = (newData, page, done, date) => {
   };
 };
 
-export const updateTask = (newData, id, page, done, date) => {
+export const updateTask = (newData, id, page, done, date, skip) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.updateTask(newData, id);
-      const data = await taskAPI.getTasks(page, done, date);
+      const data = await taskAPI.getTasks(page, done, date, skip);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -256,13 +257,13 @@ export const updateTask = (newData, id, page, done, date) => {
   };
 };
 
-export const deleteTask = (id, page, done, date) => {
+export const deleteTask = (id, page, done, date, skip) => {
   return async dispatch => {
     dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.deleteTask(id);
-      const data = await taskAPI.getTasks(page, done, date);
+      const data = await taskAPI.getTasks(page, done, date, skip);
       dispatch(fetchTasksSuccess(data));
     } catch {
       dispatch(fetchTasksFailure("Error 403"));
@@ -289,3 +290,10 @@ export const sortByDateHandler = event => {
     payload: event,
   };
 };
+
+export const skipHandler = event => {
+  return {
+    type: SKIP_HANDLER,
+    payload: event,
+  };
+}

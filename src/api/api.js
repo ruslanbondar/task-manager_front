@@ -60,8 +60,8 @@ export const userAPI = {
 };
 
 export const taskAPI = {
-  async getTasks(page, done, date) {
-    const res = await axios.get(`tasks?limit=10&sortBy=createdAt:${date}&page=${page}&completed=${done}`);
+  async getTasks(page, done, date, skip) {
+    const res = await axios.get(`tasks?limit=7&skip=${skip}&sortBy=createdAt:${date}&page=${page}&completed=${done}`);
     return res.data;
   },
   async getTasksById(id) {

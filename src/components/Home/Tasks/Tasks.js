@@ -20,7 +20,8 @@ const Tasks = ({
   deleteTask,
   currentPage,
   onCompleted,
-  date
+  date,
+  skip,
 }) => {
   const [editing, setEditing] = useState(false);
   const [task, setTask] = useState();
@@ -35,14 +36,14 @@ const Tasks = ({
     const newData = {
       description: task
     };
-    updateTask(newData, _id, currentPage, onCompleted, date);
+    updateTask(newData, _id, currentPage, onCompleted, date, skip);
   };
 
   const toComplete = () => {
     const newData = {
       completed: !completed
     };
-    updateTask(newData, _id, currentPage, onCompleted, date);
+    updateTask(newData, _id, currentPage, onCompleted, date, skip);
   };
 
   const submitChanges = e => {
@@ -94,7 +95,7 @@ const Tasks = ({
                 src={deleteIcon}
                 alt="edit"
                 className={styles.deleteImg}
-                onClick={() => deleteTask(_id, currentPage, onCompleted, date)}
+                onClick={() => deleteTask(_id, currentPage, onCompleted, date, skip)}
               />
             </div>
           </div>
@@ -108,7 +109,8 @@ const mapStateToProps = state => {
   return {
     currentPage: state.currentPage,
     onCompleted: state.completed,
-    date: state.date
+    date: state.date,
+    skip: state.skip
   };
 };
 

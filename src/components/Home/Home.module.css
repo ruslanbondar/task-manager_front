@@ -72,3 +72,48 @@
   height: 28px;
   padding-left: 12px;
 }
+
+.skipButtonsContainer {
+  width: 250px;
+  height: 30px;
+  margin: 40px auto;
+  position: relative;  
+}
+
+.prev {
+  position: absolute;
+  left: 0;
+  text-transform: uppercase;
+  width: 100px;
+  height: 35px;
+  cursor: pointer;
+  background: #252525;
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #252525;
+  outline: 0;
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  text-transform: uppercase;
+  width: 100px;
+  height: 35px;
+  cursor: pointer;
+  background: #252525;
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #252525;
+  outline: 0;
+}
+
+.prev:hover {
+  color: #252525;
+  background-color: #fff;
+}
+
+.next:hover {
+  color: #252525;
+  background-color: #fff;
+}
