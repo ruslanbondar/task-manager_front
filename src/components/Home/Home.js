@@ -1,19 +1,12 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { Link, Route } from "react-router-dom";
+import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import styles from "./Home.module.css";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import Tasks from "./Tasks/Tasks";
+import TasksContainer from './TasksContainer';
 import {
   onModalOpen,
   onLoginOpen,
   getLoggedInUser,
   getTasks,
-  postTask,
-  sortHandler,
-  sortByDateHandler,
-  skipHandler
 } from "../../redux/actions/actions";
 
 const Home = ({
@@ -23,16 +16,12 @@ const Home = ({
   user,
   getTasks,
   tasks,
-  postTask,
   currentPage,
   onCompleted,
-  sortHandler,
   date,
-  sortByDateHandler,
   skip,
-  skipHandler
 }) => {
-  const { name, _id } = user;
+  const { name } = user;
 
   const getLoggedInUserCallback = useCallback(() => {
     getLoggedInUser();
@@ -43,29 +32,9 @@ const Home = ({
   }, [getTasks, currentPage, onCompleted, date, skip]);
 
   useEffect(() => {
-    getLoggedInUserCallback();
     getTasksCallback();
+    getLoggedInUserCallback();
   }, [getLoggedInUserCallback, getTasksCallback]);
-
-  const [newTask, setNewTask] = useState();
-
-  const addTask = () => {
-    const newData = {
-      description: newTask,
-      owner: _id
-    };
-    postTask(newData, currentPage, onCompleted, date, skip);
-  };
-
-  const submitChanges = e => {
-    const form = e.target;
-    addTask();
-    e.preventDefault();
-    form.reset();
-  };
-
-  let prev = skip - 7;
-  let next = skip + 7;
 
   return (
     <div className="container">
@@ -80,75 +49,7 @@ const Home = ({
             </h3>
           )}
 
-          <Link to="/">
-            <button>get started</button>
-          </Link>
-
-          <div>
-            <Route
-              path="/"
-              render={() => {
-                return (
-                  <>
-                    <div className={styles.selectBlock}>
-                      <select
-                        className={styles.taskSelect}
-                        value={onCompleted}
-                        onChange={e => sortHandler(e.target.value)}
-                      >
-                        <option value="">Default</option>
-                        <option value={false}>Active</option>
-                        <option value={true}>Completed</option>
-                      </select>
-
-                      <select
-                        className={styles.taskSelect}
-                        value={date}
-                        onChange={e => sortByDateHandler(e.target.value)}
-                      >
-                        <option value="desc">Descending</option>
-                        <option value="asc">Ascending</option>
-                      </select>
-                    </div>
-
-                    {tasks &&
-                      tasks.map(task => {
-                        return <Tasks {...task} key={task._id} />;
-                      })}
-
-                    <div className={styles.skipButtonsContainer}>
-                      {skip > 0 && (
-                        <ArrowBackIcon
-                          className={styles.prev}
-                          onClick={() => skipHandler(prev)}
-                        ></ArrowBackIcon>
-                      )}
-
-                      {tasks.length === 7 && (
-                        <ArrowForwardIcon
-                          className={styles.next}
-                          onClick={() => skipHandler(next)}
-                        ></ArrowForwardIcon>
-                      )}
-                    </div>
-                  </>
-                );
-              }}
-            />
-
-            <div className={styles.formContainer}>
-              <form onSubmit={submitChanges} className={styles.taskForm}>
-                <input
-                  className={styles.addInput}
-                  type="text"
-                  placeholder="Write your task"
-                  onChange={e => setNewTask(e.target.value)}
-                  required
-                />
-                <input className={styles.addButton} type="submit" value="add" />
-              </form>
-            </div>
-          </div>
+          <TasksContainer />
         </div>
       ) : (
         <div className={styles.home}>
@@ -189,8 +90,4 @@ export default connect(mapStateToProps, {
   onLoginOpen,
   getLoggedInUser,
   getTasks,
-  postTask,
-  sortHandler,
-  sortByDateHandler,
-  skipHandler
 })(Home);
