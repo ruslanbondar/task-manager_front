@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import styles from "./Users.module.css";
 import { connect } from "react-redux";
-import { getUsers } from "../../redux/actions/actions";
+import { getUsers } from "../../redux/actions/users";
 import { Preloader } from "../Preloader/Preloader";
 
 const Users = ({ data, getUsers, loading }) => {
@@ -37,8 +37,8 @@ const Users = ({ data, getUsers, loading }) => {
 
 const mapStateToProps = state => {
   return {
-    data: state.data,
-    loading: state.loading
+    data: state.users.data,
+    loading: state.users.loading
   };
 };
 

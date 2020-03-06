@@ -8,7 +8,11 @@
   font-size: 75px;
   text-align: center;
   text-transform: uppercase;
-  padding-top: 50px;
+  padding-top: 100px;
+}
+
+.titleMod {
+  padding-top: 0;
 }
 
 .subTitle {

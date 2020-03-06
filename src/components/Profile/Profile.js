@@ -4,8 +4,8 @@ import styles from "./Profile.module.css";
 import {
   updateUser,
   getLoggedInUser,
-  addPhoto,
-} from "../../redux/actions/actions";
+  addPhoto
+} from "../../redux/actions/users";
 
 const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
   const getLoggedInUserCallback = useCallback(() => {
@@ -126,12 +126,12 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
 
 const mapStateToProps = state => {
   return {
-    user: state.singleUser
+    user: state.users.singleUser
   };
 };
 
 export default connect(mapStateToProps, {
   updateUser,
   getLoggedInUser,
-  addPhoto,
+  addPhoto
 })(Profile);

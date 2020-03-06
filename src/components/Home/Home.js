@@ -1,13 +1,10 @@
 import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import styles from "./Home.module.css";
-import TasksContainer from './TasksContainer';
-import {
-  onModalOpen,
-  onLoginOpen,
-  getLoggedInUser,
-  getTasks,
-} from "../../redux/actions/actions";
+import TasksContainer from "./TasksContainer";
+import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
+import { getTasks } from "../../redux/actions/tasks";
+import { getLoggedInUser } from "../../redux/actions/users";
 
 const Home = ({
   onModalOpen,
@@ -19,7 +16,7 @@ const Home = ({
   currentPage,
   onCompleted,
   date,
-  skip,
+  skip
 }) => {
   const { name } = user;
 
@@ -40,7 +37,7 @@ const Home = ({
     <div className="container">
       {localStorage["user-token"] ? (
         <div className={styles.home}>
-          <h1 className={styles.title}>Hello, {name}</h1>
+          <h1 className={`${styles.title} ${styles.titleMod}`}>Hello, {name}</h1>
           {tasks.length ? (
             <h3 className={styles.subTitle}>You have some tasks to do</h3>
           ) : (
@@ -76,12 +73,12 @@ const Home = ({
 
 const mapStateToProps = state => {
   return {
-    user: state.singleUser,
-    tasks: state.tasks,
-    currentPage: state.currentPage,
-    onCompleted: state.completed,
-    date: state.date,
-    skip: state.skip
+    user: state.users.singleUser,
+    tasks: state.tasks.tasks,
+    currentPage: state.tasks.currentPage,
+    onCompleted: state.tasks.completed,
+    date: state.tasks.date,
+    skip: state.tasks.skip
   };
 };
 
@@ -89,5 +86,5 @@ export default connect(mapStateToProps, {
   onModalOpen,
   onLoginOpen,
   getLoggedInUser,
-  getTasks,
+  getTasks
 })(Home);

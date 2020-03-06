@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styles from "./Tasks.module.css";
 import Checkbox from "@material-ui/core/Checkbox";
-import { updateTask, deleteTask } from "../../../redux/actions/actions";
+import { updateTask, deleteTask } from "../../../redux/actions/tasks";
 import deleteIcon from "../../../assets/deleteItem.svg";
 import editIcon from "../../../assets/edit.svg";
 
@@ -21,7 +21,7 @@ const Tasks = ({
   currentPage,
   onCompleted,
   date,
-  skip,
+  skip
 }) => {
   const [editing, setEditing] = useState(false);
   const [task, setTask] = useState();
@@ -95,7 +95,9 @@ const Tasks = ({
                 src={deleteIcon}
                 alt="edit"
                 className={styles.deleteImg}
-                onClick={() => deleteTask(_id, currentPage, onCompleted, date, skip)}
+                onClick={() =>
+                  deleteTask(_id, currentPage, onCompleted, date, skip)
+                }
               />
             </div>
           </div>
@@ -107,10 +109,10 @@ const Tasks = ({
 
 const mapStateToProps = state => {
   return {
-    currentPage: state.currentPage,
-    onCompleted: state.completed,
-    date: state.date,
-    skip: state.skip
+    currentPage: state.tasks.currentPage,
+    onCompleted: state.tasks.completed,
+    date: state.tasks.date,
+    skip: state.tasks.skip
   };
 };
 

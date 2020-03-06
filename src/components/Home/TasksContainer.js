@@ -9,7 +9,8 @@ import {
   sortHandler,
   sortByDateHandler,
   skipHandler
-} from "../../redux/actions/actions";
+} from "../../redux/actions/tasks";
+import { Spinner } from "../Spinner/Spinner";
 
 const TasksContainer = ({
   postTask,
@@ -21,7 +22,8 @@ const TasksContainer = ({
   currentPage,
   onCompleted,
   date,
-  skip
+  skip,
+  loading
 }) => {
   const [newTask, setNewTask] = useState();
   const { _id } = user;
@@ -67,26 +69,32 @@ const TasksContainer = ({
         </select>
       </div>
 
-      {tasks &&
-        tasks.map(task => {
-          return <Tasks {...task} key={task._id} />;
-        })}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {tasks &&
+            tasks.map(task => {
+              return <Tasks {...task} key={task._id} />;
+            })}
 
-      <div className={styles.skipButtonsContainer}>
-        {skip > 0 && (
-          <ArrowBackIcon
-            className={styles.prev}
-            onClick={() => skipHandler(prev)}
-          ></ArrowBackIcon>
-        )}
+          <div className={styles.skipButtonsContainer}>
+            {skip > 0 && (
+              <ArrowBackIcon
+                className={styles.prev}
+                onClick={() => skipHandler(prev)}
+              ></ArrowBackIcon>
+            )}
 
-        {tasks.length === 7 && (
-          <ArrowForwardIcon
-            className={styles.next}
-            onClick={() => skipHandler(next)}
-          ></ArrowForwardIcon>
-        )}
-      </div>
+            {tasks.length === 7 && (
+              <ArrowForwardIcon
+                className={styles.next}
+                onClick={() => skipHandler(next)}
+              ></ArrowForwardIcon>
+            )}
+          </div>
+        </>
+      )}
 
       <div className={styles.formContainer}>
         <form onSubmit={submitChanges} className={styles.taskForm}>
@@ -106,12 +114,13 @@ const TasksContainer = ({
 
 const mapStateToProps = state => {
   return {
-    user: state.singleUser,
-    tasks: state.tasks,
-    currentPage: state.currentPage,
-    onCompleted: state.completed,
-    date: state.date,
-    skip: state.skip
+    user: state.users.singleUser,
+    tasks: state.tasks.tasks,
+    currentPage: state.tasks.currentPage,
+    onCompleted: state.tasks.completed,
+    date: state.tasks.date,
+    skip: state.tasks.skip,
+    loading: state.tasks.loading
   };
 };
 

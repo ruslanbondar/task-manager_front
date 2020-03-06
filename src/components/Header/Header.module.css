@@ -1,7 +1,8 @@
 .header {
   width: 100%;
-  min-height: 80px;
+  height: 80px;
   background: #252525;
+  position: relative;
 }
 
 .subContainer {
@@ -16,8 +17,8 @@
 }
 
 .buttonContainer {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .addUserButton {
@@ -27,9 +28,9 @@
   text-transform: uppercase;
   background: none;
   color: #fff;
-	font-weight: bold;
-	border: none;
-	outline: 0;
+  font-weight: bold;
+  border: none;
+  outline: 0;
 }
 
 .homeButton {
@@ -38,5 +39,18 @@
 }
 
 .addUserButton:hover {
-  opacity: .5;
+  opacity: 0.5;
+}
+
+.alertWindow {
+  width: 32%;
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+}
+
+.alertWindowShow {
+  visibility: visible;
 }

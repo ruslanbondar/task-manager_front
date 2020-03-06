@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styles from "./SignUpModal.module.css";
-import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
-import { onModalClose, postUser } from "../../redux/actions/actions";
+import {
+  onModalClose,
+  onAlertOpen,
+  onAlertClose
+} from "../../redux/actions/modal";
+import { postUser } from "../../redux/actions/users";
 import showPassword from "../../assets/show-password.png";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const SignUpModal = ({ onModalClose, isOpen, postUser, token }) => {
+const SignUpModal = ({
+  onModalClose,
+  isOpen,
+  postUser,
+  onAlertOpen,
+  onAlertClose
+}) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -19,7 +30,7 @@ const SignUpModal = ({ onModalClose, isOpen, postUser, token }) => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [onModalClose]);
-  
+
   const [newAge, setNewAge] = useState();
   const [newName, setNewName] = useState();
   const [newEmail, setNewEmail] = useState();
@@ -37,9 +48,13 @@ const SignUpModal = ({ onModalClose, isOpen, postUser, token }) => {
   };
 
   const submitChanges = e => {
+    const form = e.target;
     addUser();
     onModalClose();
+    onAlertOpen();
+    onAlertClose();
     e.preventDefault();
+    form.reset();
   };
 
   return (
@@ -48,7 +63,11 @@ const SignUpModal = ({ onModalClose, isOpen, postUser, token }) => {
         className={`${styles.modal} ${isOpen && styles.open} ${isOpen ===
           false && styles.close}`}
       >
-        <Button close className={styles.closeButton} onClick={onModalClose} />
+        <HighlightOffIcon
+          fontSize="large"
+          className={styles.closeButton}
+          onClick={onModalClose}
+        ></HighlightOffIcon>
 
         <div className={styles.modalContent}>
           <form onSubmit={submitChanges} className={styles.addUserForm}>
@@ -133,11 +152,13 @@ const SignUpModal = ({ onModalClose, isOpen, postUser, token }) => {
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.isOpen,
-    token: state.token
+    isOpen: state.modal.isOpen
   };
 };
 
-export default connect(mapStateToProps, { onModalClose, postUser })(
-  SignUpModal
-);
+export default connect(mapStateToProps, {
+  onModalClose,
+  postUser,
+  onAlertOpen,
+  onAlertClose
+})(SignUpModal);

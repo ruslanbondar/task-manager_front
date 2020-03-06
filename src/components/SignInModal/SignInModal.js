@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./SignInModal.module.css";
-import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
-import { onLoginClose, loginUser } from "../../redux/actions/actions";
+import { onLoginClose } from "../../redux/actions/modal";
+import { loginUser } from "../../redux/actions/users";
 import showPassword from "../../assets/show-password.png";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, token }) => {
+const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -19,7 +20,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, token }) => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [onLoginClose]);
-  
+
   const [newEmail, setNewEmail] = useState();
   const [newPassword, setNewPassword] = useState();
   const [visible, setVisible] = useState(false);
@@ -44,7 +45,11 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, token }) => {
         className={`${styles.modal} ${isLoginOpen &&
           styles.open} ${isLoginOpen === false && styles.close}`}
       >
-        <Button close className={styles.closeButton} onClick={onLoginClose} />
+        <HighlightOffIcon
+          fontSize="large"
+          className={styles.closeButton}
+          onClick={onLoginClose}
+        ></HighlightOffIcon>
 
         <div className={styles.modalContent}>
           <form onSubmit={submitChanges} className={styles.addUserForm}>
@@ -113,8 +118,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, token }) => {
 
 const mapStateToProps = state => {
   return {
-    isLoginOpen: state.isLoginOpen,
-    token: state.token
+    isLoginOpen: state.modal.isLoginOpen
   };
 };
 

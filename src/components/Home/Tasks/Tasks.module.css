@@ -11,6 +11,7 @@
 
 .checkboxBlock {
   display: flex;
+  align-items: center;
 }
 
 .editImg:hover {
@@ -60,4 +61,8 @@
 
 .addButton:hover {
   background: #2e762d;
+}
+
+.task {
+  margin: 0;
 }

@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
-import styles from './Backdrop.module.css';
-import { connect } from 'react-redux';
-import { onModalClose, onLoginClose } from '../../redux/actions/actions';
+import React, { useRef } from "react";
+import styles from "./Backdrop.module.css";
+import { connect } from "react-redux";
+import { onModalClose, onLoginClose } from "../../redux/actions/modal";
 
 const Backdrop = ({ isOpen, onModalClose, isLoginOpen, onLoginClose }) => {
   const backdropRef = useRef();
@@ -17,14 +17,20 @@ const Backdrop = ({ isOpen, onModalClose, isLoginOpen, onLoginClose }) => {
     onLoginClose();
   };
 
-  return (isOpen || isLoginOpen) && <div className={styles.backdrop} onClick={handleBackdropClick}></div>;
+  return (
+    (isOpen || isLoginOpen) && (
+      <div className={styles.backdrop} onClick={handleBackdropClick}></div>
+    )
+  );
 };
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.isOpen,
-    isLoginOpen: state.isLoginOpen,
+    isOpen: state.modal.isOpen,
+    isLoginOpen: state.modal.isLoginOpen
   };
 };
 
-export default connect(mapStateToProps, { onModalClose, onLoginClose })(Backdrop);
+export default connect(mapStateToProps, { onModalClose, onLoginClose })(
+  Backdrop
+);

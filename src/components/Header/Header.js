@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  onModalOpen,
-  onLoginOpen,
-  logoutUser,
-  deleteUser
-} from "../../redux/actions/actions";
+import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
+import { logoutUser, deleteUser } from "../../redux/actions/users";
 import styles from "./Header.module.css";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import SignInModal from "../SignInModal/SignInModal";
+import Alert from "@material-ui/lab/Alert";
 
-const Header = ({ onModalOpen, onLoginOpen, logoutUser, deleteUser }) => {
+const Header = ({
+  onModalOpen,
+  onLoginOpen,
+  logoutUser,
+  deleteUser,
+  alert
+}) => {
   return (
     <div className={styles.header}>
       <div className="container">
@@ -70,6 +73,14 @@ const Header = ({ onModalOpen, onLoginOpen, logoutUser, deleteUser }) => {
         </div>
       </div>
 
+      <Alert
+        variant="filled"
+        severity="success"
+        className={`${styles.alertWindow} ${alert && styles.alertWindowShow}`}
+      >
+        You have created an account. Please, sign in for creating your tasks
+      </Alert>
+
       <SignUpModal />
       <SignInModal />
     </div>
@@ -78,7 +89,8 @@ const Header = ({ onModalOpen, onLoginOpen, logoutUser, deleteUser }) => {
 
 const mapStateToProps = state => {
   return {
-    user: state.singleUser
+    user: state.users.singleUser,
+    alert: state.modal.isAlertOpen
   };
 };
 
