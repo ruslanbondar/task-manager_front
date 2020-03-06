@@ -43,25 +43,9 @@
   margin-bottom: 60px;
 }
 
-.addInput {
-  width: 200px;
-  outline: 0;
-  padding-left: 15px;
-}
-
 .addButton {
   width: 90px;
-  border: none;
-  cursor: pointer;
-  background: #3dd15e;
-  text-transform: uppercase;
-  color: #fff;
-  font-weight: bold;
-  outline: 0;
-}
-
-.addButton:hover {
-  background: #2e762d;
+  height: 55px;
 }
 
 .selectBlock {

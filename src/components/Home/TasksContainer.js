@@ -3,6 +3,12 @@ import styles from "./Home.module.css";
 import { connect } from "react-redux";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import Tasks from "./Tasks/Tasks";
 import {
   postTask,
@@ -49,24 +55,32 @@ const TasksContainer = ({
   return (
     <div>
       <div className={styles.selectBlock}>
-        <select
-          className={styles.taskSelect}
-          value={onCompleted}
-          onChange={e => sortHandler(e.target.value)}
-        >
-          <option value="">Default</option>
-          <option value={false}>Active</option>
-          <option value={true}>Completed</option>
-        </select>
+        <FormControl style={{width: "100px"}}>
+          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={onCompleted}
+            onChange={e => sortHandler(e.target.value)}
+          >
+            <MenuItem value="">Default</MenuItem>
+            <MenuItem value={false}>Active</MenuItem>
+            <MenuItem value={true}>Completed</MenuItem>
+          </Select>
+        </FormControl>
 
-        <select
-          className={styles.taskSelect}
-          value={date}
-          onChange={e => sortByDateHandler(e.target.value)}
-        >
-          <option value="desc">Descending</option>
-          <option value="asc">Ascending</option>
-        </select>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={date}
+            onChange={e => sortByDateHandler(e.target.value)}
+          >
+            <MenuItem value="desc">Descending</MenuItem>
+            <MenuItem value="asc">Ascending</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       {loading ? (
@@ -98,14 +112,21 @@ const TasksContainer = ({
 
       <div className={styles.formContainer}>
         <form onSubmit={submitChanges} className={styles.taskForm}>
-          <input
-            className={styles.addInput}
-            type="text"
-            placeholder="Write your task"
+          <TextField
+            id="outlined-basic"
+            label="Write your task"
+            variant="outlined"
             onChange={e => setNewTask(e.target.value)}
             required
           />
-          <input className={styles.addButton} type="submit" value="add" />
+          <Button
+            className={styles.addButton}
+            style={{ backgroundColor: "rgb(123, 223, 93)", color: "#fff" }}
+            type="submit"
+            variant="contained"
+          >
+            ADD
+          </Button>
         </form>
       </div>
     </div>
