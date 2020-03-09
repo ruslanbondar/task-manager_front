@@ -4,10 +4,19 @@ import { connect } from "react-redux";
 import Backdrop from "../Backdrop/Backdrop";
 import { onLoginClose } from "../../redux/actions/modal";
 import { loginUser } from "../../redux/actions/users";
-import showPassword from "../../assets/show-password.png";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import { withTranslation } from "react-i18next";
 
-const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
+const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, t }) => {
   useEffect(() => {
     const handleEsc = e => {
       if (e.keyCode === 27) {
@@ -34,9 +43,19 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
   };
 
   const submitChanges = e => {
+    const form = e.target;
     signInUser();
     onLoginClose();
     e.preventDefault();
+    form.reset();
+  };
+
+  const handleClickShowPassword = () => {
+    setVisible(!visible);
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
   };
 
   return (
@@ -53,61 +72,48 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser }) => {
 
         <div className={styles.modalContent}>
           <form onSubmit={submitChanges} className={styles.addUserForm}>
-            <input
-              type="text"
+            <TextField
+              style={{ marginBottom: "20px", width: "70%" }}
+              id="outlined-basic"
+              label={t("signUpModal.email")}
               defaultValue=""
-              placeholder="Email"
-              className={styles.addUserInput}
+              variant="outlined"
               onChange={e => setNewEmail(e.target.value)}
               required
             />
-            {visible ? (
-              <div className={styles.passwordContainer}>
-                <input
-                  type="text"
-                  defaultValue=""
-                  placeholder="Password"
-                  className={styles.addUserInput}
-                  onChange={e => setNewPassword(e.target.value)}
-                  required
-                />
 
-                <div className={styles.showPassword}>
-                  <img
-                    className={styles.showPasswordImg}
-                    src={showPassword}
-                    alt="show"
-                    onClick={() => setVisible(false)}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className={styles.passwordContainer}>
-                <input
-                  type="password"
-                  defaultValue=""
-                  placeholder="Password"
-                  className={styles.addUserInput}
-                  onChange={e => setNewPassword(e.target.value)}
-                  required
-                />
+            <FormControl
+              variant="outlined"
+              style={{ marginBottom: "20px", width: "70%" }}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                {t("signUpModal.password")}
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={visible ? "text" : "password"}
+                defaultValue=""
+                onChange={e => setNewPassword(e.target.value)}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {visible ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+            </FormControl>
 
-                <div className={styles.showPassword}>
-                  <img
-                    className={styles.showPasswordImg}
-                    src={showPassword}
-                    alt="show"
-                    onClick={() => setVisible(true)}
-                  />
-                </div>
-              </div>
-            )}
-
-            <input
-              className={styles.addUserButton}
-              type="submit"
-              value="sign in"
-            />
+            <Button type="submit" variant="contained" color="primary">
+              {t("signUpModal.signInButton")}
+            </Button>
           </form>
         </div>
       </div>
@@ -122,6 +128,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { onLoginClose, loginUser })(
-  SignInModal
+export default withTranslation()(
+  connect(mapStateToProps, { onLoginClose, loginUser })(SignInModal)
 );

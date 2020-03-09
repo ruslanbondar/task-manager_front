@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 import Tasks from "./Tasks/Tasks";
 import {
   postTask,
@@ -17,6 +18,7 @@ import {
   skipHandler
 } from "../../redux/actions/tasks";
 import { Spinner } from "../Spinner/Spinner";
+import { withTranslation } from "react-i18next";
 
 const TasksContainer = ({
   postTask,
@@ -29,7 +31,8 @@ const TasksContainer = ({
   onCompleted,
   date,
   skip,
-  loading
+  loading,
+  t
 }) => {
   const [newTask, setNewTask] = useState();
   const { _id } = user;
@@ -55,30 +58,34 @@ const TasksContainer = ({
   return (
     <div>
       <div className={styles.selectBlock}>
-        <FormControl style={{width: "100px"}}>
-          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+        <FormControl style={{ width: "100px" }}>
+          <InputLabel id="demo-simple-select-label">
+            {t("taskContainer.sort")}
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={onCompleted}
             onChange={e => sortHandler(e.target.value)}
           >
-            <MenuItem value="">Default</MenuItem>
-            <MenuItem value={false}>Active</MenuItem>
-            <MenuItem value={true}>Completed</MenuItem>
+            <MenuItem value={""}>{t("taskContainer.default")}</MenuItem>
+            <MenuItem value={false}>{t("taskContainer.active")}</MenuItem>
+            <MenuItem value={true}>{t("taskContainer.completed")}</MenuItem>
           </Select>
         </FormControl>
 
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+          <InputLabel id="demo-simple-select-label">
+            {t("taskContainer.sort")}
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={date}
             onChange={e => sortByDateHandler(e.target.value)}
           >
-            <MenuItem value="desc">Descending</MenuItem>
-            <MenuItem value="asc">Ascending</MenuItem>
+            <MenuItem value="desc">{t("taskContainer.desc")}</MenuItem>
+            <MenuItem value="asc">{t("taskContainer.asc")}</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -114,19 +121,20 @@ const TasksContainer = ({
         <form onSubmit={submitChanges} className={styles.taskForm}>
           <TextField
             id="outlined-basic"
-            label="Write your task"
+            label={t("taskContainer.addTaskInput")}
             variant="outlined"
             onChange={e => setNewTask(e.target.value)}
             required
           />
-          <Button
-            className={styles.addButton}
-            style={{ backgroundColor: "rgb(123, 223, 93)", color: "#fff" }}
+          <Fab
+            style={{ marginLeft: "20px" }}
+            size="medium"
+            color="primary"
+            aria-label="add"
             type="submit"
-            variant="contained"
           >
-            ADD
-          </Button>
+            <AddIcon />
+          </Fab>
         </form>
       </div>
     </div>
@@ -145,9 +153,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  postTask,
-  sortHandler,
-  sortByDateHandler,
-  skipHandler
-})(TasksContainer);
+export default withTranslation()(
+  connect(mapStateToProps, {
+    postTask,
+    sortHandler,
+    sortByDateHandler,
+    skipHandler
+  })(TasksContainer)
+);

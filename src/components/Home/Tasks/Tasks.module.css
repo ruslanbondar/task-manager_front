@@ -1,6 +1,6 @@
 .tasksBlock {
   width: 50%;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 .nonEditingBlock {
@@ -33,12 +33,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .taskForm {
   width: 290px;
   height: 40px;
   display: flex;
+  align-items: center;
   margin: 5px 0 5px 10px;
 }
 
@@ -49,18 +51,7 @@
 }
 
 .addButton {
-  width: 90px;
-  border: none;
-  cursor: pointer;
-  background: #3dd15e;
-  text-transform: uppercase;
-  color: #fff;
-  font-weight: bold;
-  outline: 0;
-}
-
-.addButton:hover {
-  background: #2e762d;
+  height: 55px;
 }
 
 .task {

@@ -5,6 +5,7 @@ import TasksContainer from "./TasksContainer";
 import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
 import { getTasks } from "../../redux/actions/tasks";
 import { getLoggedInUser } from "../../redux/actions/users";
+import { withTranslation } from "react-i18next";
 
 const Home = ({
   onModalOpen,
@@ -16,7 +17,8 @@ const Home = ({
   currentPage,
   onCompleted,
   date,
-  skip
+  skip,
+  t
 }) => {
   const { name } = user;
 
@@ -37,33 +39,31 @@ const Home = ({
     <div className="container">
       {localStorage["user-token"] ? (
         <div className={styles.home}>
-          <h1 className={`${styles.title} ${styles.titleMod}`}>Hello, {name}</h1>
+          <h1 className={`${styles.title} ${styles.titleMod}`}>
+            {t("home.hello")}, {name}
+          </h1>
           {tasks.length ? (
-            <h3 className={styles.subTitle}>You have some tasks to do</h3>
+            <h3 className={styles.subTitle}>{t("home.yesTasks")}</h3>
           ) : (
-            <h3 className={styles.subTitle}>
-              You have no tasks in this category
-            </h3>
+            <h3 className={styles.subTitle}>{t("home.noTasks")}</h3>
           )}
 
           <TasksContainer />
         </div>
       ) : (
         <div className={styles.home}>
-          <h1 className={styles.title}>Welcome to task manager</h1>
+          <h1 className={styles.title}>{t("home.title")}</h1>
           <h3 className={styles.subTitle}>
-            Please,{" "}
             <span onClick={onModalOpen} className={styles.underline}>
-              sign up
+              {t("home.signUp")}
             </span>{" "}
-            to create your account
+            {t("home.signUpText")}
           </h3>
           <h3 className={styles.subTitle}>
-            or{" "}
             <span onClick={onLoginOpen} className={styles.underline}>
-              sign in
+              {t("home.signIn")}
             </span>{" "}
-            if you have one
+            {t("home.signInText")}
           </h3>
         </div>
       )}
@@ -82,9 +82,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  onModalOpen,
-  onLoginOpen,
-  getLoggedInUser,
-  getTasks
-})(Home);
+export default withTranslation()(
+  connect(mapStateToProps, {
+    onModalOpen,
+    onLoginOpen,
+    getLoggedInUser,
+    getTasks
+  })(Home)
+);

@@ -58,7 +58,7 @@ export const postTask = (newData, page, done, date, skip) => {
 
 export const updateTask = (newData, id, page, done, date, skip) => {
   return async dispatch => {
-    dispatch(fetchTasksRequest());
+    // dispatch(fetchTasksRequest());
 
     try {
       await taskAPI.updateTask(newData, id);

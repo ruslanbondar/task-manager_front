@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import styles from "./Profile.module.css";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import EditIcon from "@material-ui/icons/Edit";
+import SaveIcon from "@material-ui/icons/Save";
 import {
   updateUser,
   getLoggedInUser,
   addPhoto
 } from "../../redux/actions/users";
+import { withTranslation } from "react-i18next";
 
-const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
+const Profile = ({ user, updateUser, getLoggedInUser, addPhoto, t }) => {
   const getLoggedInUserCallback = useCallback(() => {
     getLoggedInUser();
   }, [getLoggedInUser]);
@@ -42,12 +48,12 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
     updateUser(newData);
   };
 
-  const setAvatar = () => {
-    const newData = {
-      avatar: photo
-    };
-    addPhoto(newData);
-  };
+  // const setAvatar = () => {
+  //   const newData = {
+  //     avatar: photo
+  //   };
+  //   addPhoto(newData);
+  // };
 
   const onPhotoSelect = async e => {
     setPhoto(e.target.files[0]);
@@ -56,7 +62,7 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
   const submitChanges = e => {
     setEditing(false);
     setUpdate();
-    setAvatar();
+    // setAvatar();
     e.preventDefault();
   };
 
@@ -77,35 +83,47 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
                 )}
               </div>
               <div className={styles.buttonBlock}>
-                <button
-                  className={styles.button}
+                <Fab
+                  color="secondary"
+                  aria-label="edit"
+                  size="large"
                   onClick={() => setEditing(true)}
                 >
-                  Edit
-                </button>
+                  <EditIcon />
+                </Fab>
               </div>
             </div>
           ) : (
             <div className={styles.editingBlock}>
               <form onSubmit={submitChanges} className={styles.userInfoForm}>
-                <input
-                  type="text"
+                <TextField
+                  style={{ marginBottom: "20px" }}
+                  id="outlined-basic"
+                  label={t("signUpModal.name")}
                   defaultValue={newName}
+                  variant="outlined"
                   onChange={e => setNewName(e.target.value)}
-                  className={styles.userInput}
                   autoFocus
                 />
-                <input
-                  type="text"
+                <TextField
+                  style={{ marginBottom: "20px" }}
+                  className={styles.userInput}
+                  id="outlined-basic"
+                  label={t("signUpModal.age")}
                   defaultValue={newAge}
+                  variant="outlined"
                   onChange={e => setNewAge(e.target.value)}
-                  className={styles.userInput}
+                  autoFocus
                 />
-                <input
-                  type="text"
-                  defaultValue={newEmail}
-                  onChange={e => setNewEmail(e.target.value)}
+                <TextField
+                  style={{ marginBottom: "20px" }}
                   className={styles.userInput}
+                  id="outlined-basic"
+                  label={t("signUpModal.email")}
+                  defaultValue={newEmail}
+                  variant="outlined"
+                  onChange={e => setNewEmail(e.target.value)}
+                  autoFocus
                 />
                 <div className={styles.buttonBlock}>
                   <input
@@ -113,7 +131,15 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto }) => {
                     className={styles.avatarInput}
                     onChange={onPhotoSelect}
                   />
-                  <input type="submit" value="save" className={styles.button} />
+                  <Button
+                    color="primary"
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                  >
+                    {t("taskContainer.saveTaskButton")}
+                  </Button>
                 </div>
               </form>
             </div>
@@ -130,8 +156,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {
-  updateUser,
-  getLoggedInUser,
-  addPhoto
-})(Profile);
+export default withTranslation()(
+  connect(mapStateToProps, {
+    updateUser,
+    getLoggedInUser,
+    addPhoto
+  })(Profile)
+);

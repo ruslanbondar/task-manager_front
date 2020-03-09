@@ -1,0 +1,47 @@
+{
+  "header": {
+    "home": "Home",
+    "profile": "Profile",
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "logout": "Logout",
+    "deleteAcc": "Delete account",
+    "alert": "You have created an account. Please, sign in for creating your tasks"
+  },
+  "signUpModal": {
+    "name": "Name",
+    "age": "Age",
+    "email": "Email",
+    "password": "Password",
+    "signUpButton": "Sign up",
+    "signInButton": "Sign in"
+  },
+  "home": {
+    "title": "Welcome to task manager",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signUpText": "to create your account",
+    "signInText": "if you have one",
+    "hello": "Hello",
+    "noTasks": "You have no tasks in this category",
+    "yesTasks": "You have some tasks to do"
+  },
+  "taskContainer": {
+    "sort": "Sort",
+    "default": "Default",
+    "active": "Active",
+    "completed": "Completed",
+    "asc": "First",
+    "desc": "Latest",
+    "addTaskInput": "Your task",
+    "addTaskButton": "Add",
+    "saveTaskButton": "Save",
+    "editTaskButton": "Edit"
+  },
+  "confirmModal": {
+    "yesButton": "Yes",
+    "noButton": "No",
+    "question": "Are you sure?",
+    "text": "Press YES to confirm or NO to cancel deletion"
+  }
+}

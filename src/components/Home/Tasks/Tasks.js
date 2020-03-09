@@ -2,27 +2,38 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styles from "./Tasks.module.css";
 import Checkbox from "@material-ui/core/Checkbox";
-import { updateTask, deleteTask } from "../../../redux/actions/tasks";
-import deleteIcon from "../../../assets/deleteItem.svg";
-import editIcon from "../../../assets/edit.svg";
-
-const materialStyles = {
-  checkbox: {
-    color: "#8bc34a"
-  }
-};
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Save";
+import ConfirmDialog from "../../ConfirmDialog/ConfirmDialog";
+import { updateTask } from "../../../redux/actions/tasks";
+import { withTranslation } from "react-i18next";
 
 const Tasks = ({
   description,
   completed,
   _id,
   updateTask,
-  deleteTask,
   currentPage,
   onCompleted,
   date,
-  skip
+  skip,
+  t
 }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const [editing, setEditing] = useState(false);
   const [task, setTask] = useState();
 
@@ -57,52 +68,54 @@ const Tasks = ({
       {!editing ? (
         <div className={styles.nonEditingBlock}>
           <div className={styles.checkboxBlock}>
-            <Checkbox
-              checked={completed}
-              style={materialStyles.checkbox}
-              onChange={toComplete}
-            />
+            <Checkbox checked={completed} onChange={toComplete} />
             <p className={`${styles.task} ${completed && styles.done}`}>
               {description}
             </p>
           </div>
 
-          <div>
-            <img
-              src={editIcon}
-              alt="edit"
-              className={styles.editImg}
-              onClick={() => setEditing(true)}
-            />
-          </div>
+          <Fab
+            color="secondary"
+            aria-label="edit"
+            size="small"
+            onClick={() => setEditing(true)}
+          >
+            <EditIcon />
+          </Fab>
         </div>
       ) : (
         <div className={styles.editingBlock}>
           <div className={styles.formContainer}>
             <form className={styles.taskForm} onSubmit={submitChanges}>
-              <input
-                type="text"
+              <TextField
+                id="outlined-basic"
+                label={t("taskContainer.addTaskInput")}
                 defaultValue={description}
+                variant="outlined"
                 onChange={e => setTask(e.target.value)}
-                className={styles.addInput}
+                required
                 autoFocus
               />
-              <input type="submit" value="save" className={styles.addButton} />
+              <Button
+                className={styles.addButton}
+                color="primary"
+                size="large"
+                type="submit"
+                variant="contained"
+                startIcon={<SaveIcon />}
+              >
+                {t("taskContainer.saveTaskButton")}
+              </Button>
             </form>
 
-            <div>
-              <img
-                src={deleteIcon}
-                alt="edit"
-                className={styles.deleteImg}
-                onClick={() =>
-                  deleteTask(_id, currentPage, onCompleted, date, skip)
-                }
-              />
-            </div>
+            <IconButton aria-label="delete" onClick={handleClickOpen}>
+              <DeleteIcon fontSize="large" />
+            </IconButton>
           </div>
         </div>
       )}
+
+      <ConfirmDialog _id={_id} open={open} handleClose={handleClose} />
     </div>
   );
 };
@@ -116,4 +129,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { updateTask, deleteTask })(Tasks);
+export default withTranslation()(
+  connect(mapStateToProps, { updateTask })(Tasks)
+);
