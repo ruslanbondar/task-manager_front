@@ -66,6 +66,7 @@ const TasksContainer = ({
             {t("taskContainer.sort")}
           </InputLabel>
           <Select
+            style={{ color: "#3e4c9c" }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={onCompleted}
@@ -82,6 +83,7 @@ const TasksContainer = ({
             {t("taskContainer.sort")}
           </InputLabel>
           <Select
+            style={{ color: "#3e4c9c" }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={date}

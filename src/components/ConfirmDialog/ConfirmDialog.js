@@ -29,15 +29,15 @@ const ConfirmDialog = ({
   t
 }) => {
   return (
-    <div>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogContent style={{ backgroundColor: "rgb(253, 233, 255)" }}>
         <DialogTitle id="alert-dialog-title">
           {t("confirmModal.question")}
         </DialogTitle>
@@ -60,8 +60,8 @@ const ConfirmDialog = ({
             {t("confirmModal.yesButton")}
           </Button>
         </DialogActions>
-      </Dialog>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -15,6 +15,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 import Slide from "@material-ui/core/Slide";
 
 import { withTranslation } from "react-i18next";
@@ -61,58 +62,61 @@ const SignInModal = ({ loginUser, t, open, handleClose }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <HighlightOffIcon
-        fontSize="large"
-        className={styles.closeButton}
-        onClick={handleClose}
-      ></HighlightOffIcon>
+      <DialogContent style={{ backgroundColor: "rgb(253, 233, 255)" }}>
+        <HighlightOffIcon
+          color="primary"
+          fontSize="large"
+          className={styles.closeButton}
+          onClick={handleClose}
+        ></HighlightOffIcon>
 
-      <div className={styles.modalContent}>
-        <form onSubmit={submitChanges} className={styles.addUserForm}>
-          <TextField
-            style={{ marginBottom: "20px", width: "100%" }}
-            id="outlined-basic"
-            label={t("signUpModal.email")}
-            defaultValue=""
-            variant="outlined"
-            onChange={e => setNewEmail(e.target.value)}
-            required
-          />
-
-          <FormControl
-            variant="outlined"
-            style={{ marginBottom: "20px", width: "100%" }}
-          >
-            <InputLabel htmlFor="outlined-adornment-password">
-              {t("signUpModal.password")}
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={visible ? "text" : "password"}
+        <div className={styles.modalContent}>
+          <form onSubmit={submitChanges} className={styles.addUserForm}>
+            <TextField
+              style={{ marginBottom: "20px", width: "100%" }}
+              id="outlined-basic"
+              label={t("signUpModal.email")}
               defaultValue=""
-              onChange={e => setNewPassword(e.target.value)}
+              variant="outlined"
+              onChange={e => setNewEmail(e.target.value)}
               required
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {visible ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={70}
             />
-          </FormControl>
 
-          <Button type="submit" variant="contained" color="primary">
-            {t("signUpModal.signInButton")}
-          </Button>
-        </form>
-      </div>
+            <FormControl
+              variant="outlined"
+              style={{ marginBottom: "20px", width: "100%" }}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                {t("signUpModal.password")}
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={visible ? "text" : "password"}
+                defaultValue=""
+                onChange={e => setNewPassword(e.target.value)}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {visible ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+            </FormControl>
+
+            <Button type="submit" variant="contained" color="primary">
+              {t("signUpModal.signInButton")}
+            </Button>
+          </form>
+        </div>
+      </DialogContent>
     </Dialog>
   );
 };
