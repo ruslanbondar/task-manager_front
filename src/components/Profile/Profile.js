@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import {
   updateUser,
   getLoggedInUser,
-  addPhoto
+  addPhoto,
+  getPhoto
 } from "../../redux/actions/users";
 
 import TextField from "@material-ui/core/TextField";
@@ -16,17 +17,26 @@ import SaveIcon from "@material-ui/icons/Save";
 
 import { withTranslation } from "react-i18next";
 
-const Profile = ({ user, updateUser, getLoggedInUser, addPhoto, t }) => {
+const Profile = ({
+  user,
+  updateUser,
+  getLoggedInUser,
+  addPhoto,
+  getPhoto,
+  t
+}) => {
   const getLoggedInUserCallback = useCallback(() => {
     getLoggedInUser();
   }, [getLoggedInUser]);
 
   useEffect(() => {
     getLoggedInUserCallback();
-  }, [getLoggedInUserCallback]);
+    getPhoto();
+  }, [getLoggedInUserCallback, getPhoto]);
 
-  const { name, email, age, _id, avatar } = user;
-  const imgUrl = `http://localhost:3001/users/${_id}/data:image/jpg;base64,${avatar}`;
+  const { name, email, age, avatar } = user;
+  const base64 = `data:image/jpg;base64,${avatar}`;
+  const imgUrl = `http://localhost:3001/users/me/${base64}`;
 
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState();
@@ -51,12 +61,12 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto, t }) => {
     updateUser(newData);
   };
 
-  // const setAvatar = () => {
-  //   const newData = {
-  //     avatar: photo
-  //   };
-  //   addPhoto(newData);
-  // };
+  const setAvatar = () => {
+    const newData = {
+      avatar: photo
+    };
+    addPhoto(newData);
+  };
 
   const onPhotoSelect = async e => {
     setPhoto(e.target.files[0]);
@@ -65,7 +75,7 @@ const Profile = ({ user, updateUser, getLoggedInUser, addPhoto, t }) => {
   const submitChanges = e => {
     setEditing(false);
     setUpdate();
-    // setAvatar();
+    setAvatar();
     e.preventDefault();
   };
 
@@ -163,6 +173,7 @@ export default withTranslation()(
   connect(mapStateToProps, {
     updateUser,
     getLoggedInUser,
-    addPhoto
+    addPhoto,
+    getPhoto
   })(Profile)
 );

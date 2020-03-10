@@ -74,14 +74,20 @@ const Header = ({ logoutUser, alert, i18n, t }) => {
           >
             <span
               className={styles.languageItem}
-              style={{ fontWeight: i18n.language === "en" && "bold" }}
+              style={{
+                backgroundColor: i18n.language === "en" && "rgb(255, 169, 212)",
+                color: i18n.language === "en" && "#fff"
+              }}
               onClick={() => i18n.changeLanguage("en")}
             >
               en
             </span>
             <span
               className={styles.languageItem}
-              style={{ fontWeight: i18n.language === "ua" && "bold" }}
+              style={{
+                backgroundColor: i18n.language === "ua" && "rgb(255, 169, 212)",
+                color: i18n.language === "ua" && "#fff"
+              }}
               onClick={() => i18n.changeLanguage("ua")}
             >
               ua

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./Home.module.css";
 import Tasks from "./Tasks/Tasks";
 import { Spinner } from "../Spinner/Spinner";
 
 import { connect } from "react-redux";
 import {
+  getTasks,
   postTask,
   sortHandler,
   sortByDateHandler,
@@ -24,6 +25,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { withTranslation } from "react-i18next";
 
 const TasksContainer = ({
+  getTasks,
   postTask,
   sortHandler,
   sortByDateHandler,
@@ -37,6 +39,14 @@ const TasksContainer = ({
   loading,
   t
 }) => {
+  const getTasksCallback = useCallback(() => {
+    getTasks(currentPage, onCompleted, date, skip);
+  }, [getTasks, currentPage, onCompleted, date, skip]);
+
+  useEffect(() => {
+    getTasksCallback();
+  }, [getTasksCallback]);
+
   const [newTask, setNewTask] = useState();
   const { _id } = user;
 
@@ -163,6 +173,7 @@ export default withTranslation()(
     postTask,
     sortHandler,
     sortByDateHandler,
-    skipHandler
+    skipHandler,
+    getTasks
   })(TasksContainer)
 );

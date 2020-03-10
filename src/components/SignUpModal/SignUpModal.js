@@ -22,7 +22,7 @@ import Slide from "@material-ui/core/Slide";
 import { withTranslation } from "react-i18next";
 
 const Transition = React.forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="left" ref={ref} {...props} />;
 });
 
 const SignUpModal = ({
@@ -88,7 +88,6 @@ const SignUpModal = ({
           <form onSubmit={submitChanges} className={styles.addUserForm}>
             <TextField
               style={{ marginBottom: "20px", width: "100%" }}
-              id="outlined-basic"
               label={t("signUpModal.name")}
               defaultValue=""
               variant="outlined"
@@ -97,7 +96,6 @@ const SignUpModal = ({
             />
             <TextField
               style={{ marginBottom: "20px", width: "100%" }}
-              id="outlined-basic"
               label={t("signUpModal.age")}
               defaultValue=""
               variant="outlined"
@@ -106,7 +104,6 @@ const SignUpModal = ({
             />
             <TextField
               style={{ marginBottom: "20px", width: "100%" }}
-              id="outlined-basic"
               label={t("signUpModal.email")}
               defaultValue=""
               variant="outlined"
@@ -122,7 +119,6 @@ const SignUpModal = ({
                 {t("signUpModal.password")}
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
                 type={visible ? "text" : "password"}
                 defaultValue=""
                 onChange={e => setNewPassword(e.target.value)}

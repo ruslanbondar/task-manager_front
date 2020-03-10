@@ -3,36 +3,20 @@ import styles from "./Home.module.css";
 import TasksContainer from "./TasksContainer";
 
 import { connect } from "react-redux";
-import { getTasks } from "../../redux/actions/tasks";
 import { getLoggedInUser } from "../../redux/actions/users";
 
 import { withTranslation } from "react-i18next";
 
-const Home = ({
-  getLoggedInUser,
-  user,
-  getTasks,
-  tasks,
-  currentPage,
-  onCompleted,
-  date,
-  skip,
-  t
-}) => {
+const Home = ({ getLoggedInUser, user, tasks = [], t }) => {
   const { name } = user;
 
   const getLoggedInUserCallback = useCallback(() => {
     getLoggedInUser();
   }, [getLoggedInUser]);
 
-  const getTasksCallback = useCallback(() => {
-    getTasks(currentPage, onCompleted, date, skip);
-  }, [getTasks, currentPage, onCompleted, date, skip]);
-
   useEffect(() => {
-    getTasksCallback();
     getLoggedInUserCallback();
-  }, [getLoggedInUserCallback, getTasksCallback]);
+  }, [getLoggedInUserCallback]);
 
   return (
     <div className="container">
@@ -63,17 +47,12 @@ const Home = ({
 const mapStateToProps = state => {
   return {
     user: state.users.singleUser,
-    tasks: state.tasks.tasks,
-    currentPage: state.tasks.currentPage,
-    onCompleted: state.tasks.completed,
-    date: state.tasks.date,
-    skip: state.tasks.skip
+    tasks: state.tasks.tasks
   };
 };
 
 export default withTranslation()(
   connect(mapStateToProps, {
-    getLoggedInUser,
-    getTasks
+    getLoggedInUser
   })(Home)
 );

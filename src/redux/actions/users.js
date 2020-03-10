@@ -132,7 +132,7 @@ export const addPhoto = newData => {
 
     try {
       await userAPI.addPhoto(newData);
-      // await userAPI.getPhoto();
+      // const data = await userAPI.getPhoto();
       const data = await userAPI.getLoggedInUser();
       dispatch(fetchSingleUser(data));
     } catch {

@@ -28,13 +28,9 @@ const AccountDialog = ({ open, handleClose, deleteUser, t }) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogContent style={{ backgroundColor: "rgb(253, 233, 255)" }}>
-        <DialogTitle id="alert-dialog-title">
-          {t("confirmModal.question")}
-        </DialogTitle>
+        <DialogTitle>{t("confirmModal.question")}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {t("confirmModal.text")}
-          </DialogContentText>
+          <DialogContentText>{t("confirmModal.text")}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
