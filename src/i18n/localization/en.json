@@ -18,10 +18,8 @@
   },
   "home": {
     "title": "Welcome to task manager",
-    "signIn": "Sign in",
-    "signUp": "Sign up",
-    "signUpText": "to create your account",
-    "signInText": "if you have one",
+    "signIn": "Sign in if you have one",
+    "signUp": "Sign up to create your account",
     "hello": "Hello",
     "noTasks": "You have no tasks in this category",
     "yesTasks": "You have some tasks to do"

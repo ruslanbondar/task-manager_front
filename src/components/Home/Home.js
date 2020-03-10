@@ -3,15 +3,12 @@ import styles from "./Home.module.css";
 import TasksContainer from "./TasksContainer";
 
 import { connect } from "react-redux";
-import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
 import { getTasks } from "../../redux/actions/tasks";
 import { getLoggedInUser } from "../../redux/actions/users";
 
 import { withTranslation } from "react-i18next";
 
 const Home = ({
-  onModalOpen,
-  onLoginOpen,
   getLoggedInUser,
   user,
   getTasks,
@@ -55,18 +52,8 @@ const Home = ({
       ) : (
         <div className={styles.home}>
           <h1 className={styles.title}>{t("home.title")}</h1>
-          <h3 className={styles.subTitle}>
-            <span onClick={onModalOpen} className={styles.underline}>
-              {t("home.signUp")}
-            </span>{" "}
-            {t("home.signUpText")}
-          </h3>
-          <h3 className={styles.subTitle}>
-            <span onClick={onLoginOpen} className={styles.underline}>
-              {t("home.signIn")}
-            </span>{" "}
-            {t("home.signInText")}
-          </h3>
+          <h3 className={styles.subTitle}>{t("home.signUp")}</h3>
+          <h3 className={styles.subTitle}>{t("home.signIn")}</h3>
         </div>
       )}
     </div>
@@ -86,8 +73,6 @@ const mapStateToProps = state => {
 
 export default withTranslation()(
   connect(mapStateToProps, {
-    onModalOpen,
-    onLoginOpen,
     getLoggedInUser,
     getTasks
   })(Home)

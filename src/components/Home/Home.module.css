@@ -21,15 +21,6 @@
   text-transform: uppercase;
 }
 
-.underline {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.underline:hover {
-  opacity: 0.5;
-}
-
 .formContainer {
   width: 60%;
   margin: 30px auto;

@@ -1,16 +1,3 @@
-.modal {
-  position: fixed;
-  background-color: white;
-  box-sizing: border-box;
-  top: 15%;
-  left: 34%;
-  width: 32%;
-  display: none;
-  min-height: 250px;
-  z-index: 100;
-  border-radius: 5px;
-}
-
 .closeButton {
   width: auto;
   position: absolute;
@@ -32,12 +19,4 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-}
-
-.open {
-  display: block;
-}
-
-.close {
-  display: none;
 }

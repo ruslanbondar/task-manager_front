@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./SignInModal.module.css";
-import Backdrop from "../Backdrop/Backdrop";
 
 import { connect } from "react-redux";
-import { onLoginClose } from "../../redux/actions/modal";
 import { loginUser } from "../../redux/actions/users";
 
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
@@ -16,23 +14,16 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Dialog from "@material-ui/core/Dialog";
+import Slide from "@material-ui/core/Slide";
 
 import { withTranslation } from "react-i18next";
 
-const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, t }) => {
-  useEffect(() => {
-    const handleEsc = e => {
-      if (e.keyCode === 27) {
-        onLoginClose();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
+const Transition = React.forwardRef((props, ref) => {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [onLoginClose]);
-
+const SignInModal = ({ loginUser, t, open, handleClose }) => {
   const [newEmail, setNewEmail] = useState();
   const [newPassword, setNewPassword] = useState();
   const [visible, setVisible] = useState(false);
@@ -48,7 +39,7 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, t }) => {
   const submitChanges = e => {
     const form = e.target;
     signInUser();
-    onLoginClose();
+    handleClose();
     e.preventDefault();
     form.reset();
   };
@@ -62,75 +53,68 @@ const SignInModal = ({ onLoginClose, isLoginOpen, loginUser, t }) => {
   };
 
   return (
-    <>
-      <div
-        className={`${styles.modal} ${isLoginOpen &&
-          styles.open} ${isLoginOpen === false && styles.close}`}
-      >
-        <HighlightOffIcon
-          fontSize="large"
-          className={styles.closeButton}
-          onClick={onLoginClose}
-        ></HighlightOffIcon>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <HighlightOffIcon
+        fontSize="large"
+        className={styles.closeButton}
+        onClick={handleClose}
+      ></HighlightOffIcon>
 
-        <div className={styles.modalContent}>
-          <form onSubmit={submitChanges} className={styles.addUserForm}>
-            <TextField
-              style={{ marginBottom: "20px", width: "70%" }}
-              id="outlined-basic"
-              label={t("signUpModal.email")}
+      <div className={styles.modalContent}>
+        <form onSubmit={submitChanges} className={styles.addUserForm}>
+          <TextField
+            style={{ marginBottom: "20px", width: "100%" }}
+            id="outlined-basic"
+            label={t("signUpModal.email")}
+            defaultValue=""
+            variant="outlined"
+            onChange={e => setNewEmail(e.target.value)}
+            required
+          />
+
+          <FormControl
+            variant="outlined"
+            style={{ marginBottom: "20px", width: "100%" }}
+          >
+            <InputLabel htmlFor="outlined-adornment-password">
+              {t("signUpModal.password")}
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={visible ? "text" : "password"}
               defaultValue=""
-              variant="outlined"
-              onChange={e => setNewEmail(e.target.value)}
+              onChange={e => setNewPassword(e.target.value)}
               required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {visible ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={70}
             />
+          </FormControl>
 
-            <FormControl
-              variant="outlined"
-              style={{ marginBottom: "20px", width: "70%" }}
-            >
-              <InputLabel htmlFor="outlined-adornment-password">
-                {t("signUpModal.password")}
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={visible ? "text" : "password"}
-                defaultValue=""
-                onChange={e => setNewPassword(e.target.value)}
-                required
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {visible ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={70}
-              />
-            </FormControl>
-
-            <Button type="submit" variant="contained" color="primary">
-              {t("signUpModal.signInButton")}
-            </Button>
-          </form>
-        </div>
+          <Button type="submit" variant="contained" color="primary">
+            {t("signUpModal.signInButton")}
+          </Button>
+        </form>
       </div>
-      <Backdrop />
-    </>
+    </Dialog>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    isLoginOpen: state.modal.isLoginOpen
-  };
-};
-
-export default withTranslation()(
-  connect(mapStateToProps, { onLoginClose, loginUser })(SignInModal)
-);
+export default withTranslation()(connect(null, { loginUser })(SignInModal));

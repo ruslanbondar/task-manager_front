@@ -6,22 +6,39 @@ import SignInModal from "../SignInModal/SignInModal";
 import AccountDialog from "../AccountDialog/AccountDialog";
 
 import { connect } from "react-redux";
-import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
 import { logoutUser } from "../../redux/actions/users";
 
 import Alert from "@material-ui/lab/Alert";
 
 import { withTranslation } from "react-i18next";
 
-const Header = ({ onModalOpen, onLoginOpen, logoutUser, alert, i18n, t }) => {
-  const [open, setOpen] = useState(false);
+const Header = ({ logoutUser, alert, i18n, t }) => {
+  const [accountDeleteOpen, setAccountDeleteOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleAccDeleteOpen = () => {
+    setAccountDeleteOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleAccDeleteClose = () => {
+    setAccountDeleteOpen(false);
+  };
+
+  const handleSignUpOpen = () => {
+    setSignUpOpen(true);
+  };
+
+  const handleSignUpClose = () => {
+    setSignUpOpen(false);
+  };
+
+  const handleSignInOpen = () => {
+    setSignInOpen(true);
+  };
+
+  const handleSignInClose = () => {
+    setSignInOpen(false);
   };
 
   return (
@@ -81,7 +98,7 @@ const Header = ({ onModalOpen, onLoginOpen, logoutUser, alert, i18n, t }) => {
                   {t("header.logout")}
                 </button>
                 <button
-                  onClick={handleClickOpen}
+                  onClick={handleAccDeleteOpen}
                   className={styles.addUserButton}
                 >
                   {t("header.deleteAcc")}
@@ -89,11 +106,17 @@ const Header = ({ onModalOpen, onLoginOpen, logoutUser, alert, i18n, t }) => {
               </div>
             ) : (
               <div className={styles.buttonContainer}>
-                <button className={styles.addUserButton} onClick={onModalOpen}>
+                <button
+                  className={styles.addUserButton}
+                  onClick={handleSignUpOpen}
+                >
                   {t("header.signUp")}
                 </button>
 
-                <button className={styles.addUserButton} onClick={onLoginOpen}>
+                <button
+                  className={styles.addUserButton}
+                  onClick={handleSignInOpen}
+                >
                   {t("header.signIn")}
                 </button>
               </div>
@@ -110,9 +133,12 @@ const Header = ({ onModalOpen, onLoginOpen, logoutUser, alert, i18n, t }) => {
         {t("header.alert")}
       </Alert>
 
-      <SignUpModal />
-      <SignInModal />
-      <AccountDialog open={open} handleClose={handleClose} />
+      <SignUpModal open={signUpOpen} handleClose={handleSignUpClose} />
+      <SignInModal open={signInOpen} handleClose={handleSignInClose} />
+      <AccountDialog
+        open={accountDeleteOpen}
+        handleClose={handleAccDeleteClose}
+      />
     </div>
   );
 };
@@ -126,8 +152,6 @@ const mapStateToProps = state => {
 
 export default withTranslation()(
   connect(mapStateToProps, {
-    onModalOpen,
-    onLoginOpen,
     logoutUser
   })(Header)
 );
