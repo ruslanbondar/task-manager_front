@@ -43,5 +43,10 @@
     "noButton": "No",
     "question": "Are you sure?",
     "text": "Press YES to confirm or NO to cancel deletion"
+  },
+  "users": {
+    "name": "Name",
+    "age": "Age",
+    "email": "Email"
   }
 }

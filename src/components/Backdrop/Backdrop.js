@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styles from "./Backdrop.module.css";
+
 import { connect } from "react-redux";
 import { onModalClose, onLoginClose } from "../../redux/actions/modal";
 

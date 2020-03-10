@@ -1,9 +1,12 @@
 import React, { useEffect, useCallback } from "react";
 import styles from "./Users.module.css";
+
 import { connect } from "react-redux";
 import { getUsers } from "../../redux/actions/users";
 
-const Users = ({ data, getUsers, loading }) => {
+import { withTranslation } from "react-i18next";
+
+const Users = ({ data, getUsers, loading, t }) => {
   const getUsersCallback = useCallback(() => getUsers(), [getUsers]);
 
   useEffect(() => {
@@ -16,9 +19,15 @@ const Users = ({ data, getUsers, loading }) => {
         {data.map(user => (
           <div className={styles.userInfo} key={user._id}>
             <div>
-              <p>Name: {user.name}</p>
-              <p>Age: {user.age}</p>
-              <p>Email: {user.email}</p>
+              <p>
+                {t("users.name")}: {user.name}
+              </p>
+              <p>
+                {t("users.age")}: {user.age}
+              </p>
+              <p>
+                {t("users.email")}: {user.email}
+              </p>
             </div>
             <div>
               <p>{user.createdAt}</p>
@@ -36,4 +45,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getUsers })(Users);
+export default withTranslation()(connect(mapStateToProps, { getUsers })(Users));

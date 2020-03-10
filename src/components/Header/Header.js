@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
-import { logoutUser } from "../../redux/actions/users";
 import styles from "./Header.module.css";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import SignInModal from "../SignInModal/SignInModal";
-import Alert from "@material-ui/lab/Alert";
 import AccountDialog from "../AccountDialog/AccountDialog";
+
+import { connect } from "react-redux";
+import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
+import { logoutUser } from "../../redux/actions/users";
+
+import Alert from "@material-ui/lab/Alert";
+
 import { withTranslation } from "react-i18next";
 
-const Header = ({
-  onModalOpen,
-  onLoginOpen,
-  logoutUser,
-  alert,
-  i18n,
-  t
-}) => {
+const Header = ({ onModalOpen, onLoginOpen, logoutUser, alert, i18n, t }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

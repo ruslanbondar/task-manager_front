@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import styles from "./Home.module.css";
+import Tasks from "./Tasks/Tasks";
+import { Spinner } from "../Spinner/Spinner";
+
 import { connect } from "react-redux";
+import {
+  postTask,
+  sortHandler,
+  sortByDateHandler,
+  skipHandler
+} from "../../redux/actions/tasks";
+
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import TextField from "@material-ui/core/TextField";
@@ -10,14 +20,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import Tasks from "./Tasks/Tasks";
-import {
-  postTask,
-  sortHandler,
-  sortByDateHandler,
-  skipHandler
-} from "../../redux/actions/tasks";
-import { Spinner } from "../Spinner/Spinner";
+
 import { withTranslation } from "react-i18next";
 
 const TasksContainer = ({

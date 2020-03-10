@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
 import styles from "./Profile.module.css";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Fab from "@material-ui/core/Fab";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
+
+import { connect } from "react-redux";
 import {
   updateUser,
   getLoggedInUser,
   addPhoto
 } from "../../redux/actions/users";
+
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import EditIcon from "@material-ui/icons/Edit";
+import SaveIcon from "@material-ui/icons/Save";
+
 import { withTranslation } from "react-i18next";
 
 const Profile = ({ user, updateUser, getLoggedInUser, addPhoto, t }) => {

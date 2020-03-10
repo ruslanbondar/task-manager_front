@@ -1,10 +1,12 @@
 import React, { useEffect, useCallback } from "react";
-import { connect } from "react-redux";
 import styles from "./Home.module.css";
 import TasksContainer from "./TasksContainer";
+
+import { connect } from "react-redux";
 import { onModalOpen, onLoginOpen } from "../../redux/actions/modal";
 import { getTasks } from "../../redux/actions/tasks";
 import { getLoggedInUser } from "../../redux/actions/users";
+
 import { withTranslation } from "react-i18next";
 
 const Home = ({
