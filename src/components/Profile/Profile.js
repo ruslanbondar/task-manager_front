@@ -31,8 +31,8 @@ const Profile = ({
 
   useEffect(() => {
     getLoggedInUserCallback();
-    getPhoto();
-  }, [getLoggedInUserCallback, getPhoto]);
+    // getPhoto();
+  }, [getLoggedInUserCallback]);
 
   const { name, email, age, avatar } = user;
   const base64 = `data:image/jpg;base64,${avatar}`;
